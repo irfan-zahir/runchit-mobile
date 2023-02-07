@@ -3,7 +3,8 @@
 import { User as IFirebaseUser, Auth } from "firebase/auth"
 
 interface IUserData extends IFirebaseUser {
-    accessToken: string | undefined;
+    accessToken?: string;
+    database?: IDatabaseUser
 }
 
 export interface IAuthProviderValue {

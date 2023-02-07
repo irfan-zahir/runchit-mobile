@@ -1,8 +1,9 @@
+import { getCurrentUserData } from "@api/user.api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { IUserData } from "@typings/providers";
+import { IDatabaseUser } from "@typings/api.d"
 
 interface IInitialState {
-    userData: IUserData | null
+    userData: IDatabaseUser | null
     loading: boolean;
 }
 
@@ -11,9 +12,11 @@ const initialState: IInitialState = {
     loading: true
 }
 
-// export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
+// export const fetchUser = createAsyncThunk('users/fetchUser', async () => {
 //     // const response = await fetch('https://reqres.in/api/users?delay=1');
 //     // return (await response.json()).data as UserData[];
+//     const res = await getCurrentUserData()
+//     if(res.message === "new-user")
 //     return { hello: "world" }
 // });
 
@@ -24,20 +27,20 @@ const usersSlice = createSlice({
         // ping(action, { payload }) {
         //     action.test = payload
         // },
-        setCurrentUser: (action, { payload }: { payload: IUserData | null }) => {
+        setCurrentUser: (action, { payload }: { payload: IDatabaseUser | null }) => {
             action.loading = false
             action.userData = payload
         },
     },
     // extraReducers: (builder) => {
-    //     builder.addCase(fetchUsers.pending, state => {
+    //     builder.addCase(fetchUser.pending, state => {
     //         state.loading = true
     //     })
-    //     builder.addCase(fetchUsers.fulfilled, (state, action) => {
+    //     builder.addCase(fetchUser.fulfilled, (state, action) => {
     //         state.test = action.payload
     //         state.loading = false
     //     })
-    //     builder.addCase(fetchUsers.rejected, state => {
+    //     builder.addCase(fetchUser.rejected, state => {
     //         state.loading = false
     //     })
     // }

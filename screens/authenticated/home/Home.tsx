@@ -9,7 +9,7 @@ import axios from 'axios'
 export const Home = (props: AuthenticatedScreenProps<"Home">) => {
 
     const apiTestCall = async () => {
-        const response = await axios.get("/")
+        const response = await axios.get("/user/")
         console.log(response.data)
     }
 

@@ -11,6 +11,7 @@ export type AuthenticatedParamList = {
     Sales: undefined;
     Inventory: undefined;
     Store: undefined;
+    Registration: undefined;
 }
 
 export type AuthenticatedScreenProps<Screen extends keyof AuthenticatedParamList> = DrawerScreenProps<AuthenticatedParamList, Screen>
