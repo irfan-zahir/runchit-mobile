@@ -1,15 +1,17 @@
 import React from 'react'
 import { Input as RNMInput, InputProps as RNMInputProps } from "react-native-magnus"
 import { Wrapper } from '../Wrapper'
-import { IInputState, ICommonFormProps } from "../forms.d"
+import { ICommonFormProps } from "../forms.d"
 
-interface IFormInputProps extends RNMInputProps, Omit<ICommonFormProps, "children"> {
+type IWrapperProps = Omit<ICommonFormProps, "children"> 
 
+interface IFormInputProps extends RNMInputProps, IWrapperProps {
+  required?: boolean
 }
 
-export const FormInput: React.FC<IFormInputProps> = ({ state, helperText, label, name, control, variant, ...props }) => {
+export const FormInput: React.FC<IFormInputProps> = ({ state, helperText, label, name, control, variant, required, ...props }) => {
 
-  const wrapperProps = { state, helperText, label, name, control }
+  const wrapperProps: IWrapperProps = { state, helperText, label, name, control, required }
 
   const stateProps: Omit<IFormInputProps, "name"> = { borderBottomWidth: 4, borderColor: state ?? "primary" }
 

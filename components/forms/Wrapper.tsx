@@ -1,38 +1,47 @@
 import { Typography } from '@components/typography';
 import React from 'react'
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { Div } from 'react-native-magnus';
 import { ICommonFormProps as IWrapperProps } from './forms.d';
 
-export const Wrapper: React.FC<React.PropsWithChildren<IWrapperProps>> = ({ label, children, helperText, control, name, ...props }) => {
+export const Wrapper: React.FC<React.PropsWithChildren<IWrapperProps>> 
+    = ({ label, children, helperText, control, name, required = false, ...props }) => {
+        const {getFieldState} = useFormContext()
+        
+        return (
+            <Controller 
+            name={name} 
+            control={control} 
+            rules={{ required: required && "This field is required" }} 
+            render={({ field, formState }) => {
 
-    return (
-        <Controller name={name} control={control} render={({ field, formState }) => {
+                
+                const { isValid, isLoading, isDirty, errors } = formState
+                const {error} = getFieldState(name)
+                const hasError = Object.keys(errors).length > 0
+                
+                const color = isValid ? "success" : hasError ? "danger" : "warning"
 
-            const { isValid, isLoading, isDirty } = formState
+                return (
 
-            const color = isValid ? "success" : isDirty ? "warning" : "danger"
+                    <Div my={4}>
+                        {
+                            label &&
+                            <Typography color='primary' variant='subtitle' mb={4}>
+                                {label}
+                            </Typography>
+                        }
 
-            return (
+                        {/* input component display here */}
+                        {!Array.isArray(children) && React.cloneElement(children, { ...children.props, ...field, onChangeText: field.onChange })}
 
-                <Div my={4}>
-                    {
-                        label &&
-                        <Typography color='primary' variant='subtitle' mb={4}>
-                            {label}
-                        </Typography>
-                    }
-
-                    {/* input component display here */}
-                    {!Array.isArray(children) && React.cloneElement(children, { ...children.props, ...field, onChangeText: field.onChange })}
-
-                    {
-                        (helperText && isDirty || !isValid) && <Typography color={color} variant='small' mt={4}>
-                            {helperText}
-                        </Typography>
-                    }
-                </Div>
-            )
-        }} />
-    )
-}
+                        {
+                            ((hasError && error) && (isDirty || !isValid)) && <Typography color={color} variant='small' mt={4}>
+                                {error?.message?.toString()}
+                            </Typography>
+                        }
+                    </Div>
+                )
+            }} />
+        )
+    }

@@ -27,4 +27,5 @@ export interface ICommonFormProps {
     helperText?: string;
     state?: IInputState;
     children: React.ReactElement | React.ReactElement[]
+    required?: boolean
 }

@@ -15,22 +15,32 @@ export const MultiInputWrapper: React.FC<IMultiInputWrapperProp> = ({
     children, name: groupedName, label, appendText, control, ...containerProps
 }) => {
 
-    const { setValue: setParentValue, formState, watch, resetField } = useFormContext()
+    const { 
+        setValue: setParentValue, 
+        formState, 
+        watch, 
+        resetField, 
+        setFocus, 
+        trigger, 
+        setError 
+    } = useFormContext()
 
     const [fields, setFields] = React.useState<Record<string, any>[]>([])
 
-    const resetMultiInput = () => {
-        const names = React.Children.map(children, child => child.props.name)
-
-        names.forEach(name => { console.log(name); resetField(name) })
+    const validateFields = async ()=>{
+        const names = React.Children.map(children, child => `${groupedName}.${fields.length}.${child.props.name}`)
+        const validation = await Promise.all(names.map(async(name)=> {
+            const val = await trigger(name)
+            // if(!val) setError(name, {type: "required"})
+            return val
+        }))
+        return validation.indexOf(false) < 0
     }
 
-    const appendField = () => {
-        const newFields = watch(groupedName)
-        console.log({ newFields, fields })
-        setFields(newFields)
-        // resetMultiInput()
-        resetField("shopName")
+    const appendField = async () => {
+        const newFields = [...watch(groupedName)]
+        const validated = await validateFields()
+        if(validated) setFields(newFields)
     }
 
 
@@ -40,6 +50,27 @@ export const MultiInputWrapper: React.FC<IMultiInputWrapperProp> = ({
         setParentValue(groupedName, removed)
     }
 
+    const resetMultiInput = () => {
+        const names = React.Children.map(children, child => child.props.name)
+        names.forEach(name => resetField(`${groupedName}.${fields.length}.${name}`))
+        const firstInput = children[0].props.name
+        const shouldFocusName = `${groupedName}.${fields.length}.${firstInput}`
+        setFocus(shouldFocusName)
+    }
+
+    React.useEffect(() => {
+        if(fields.length > 0) resetMultiInput()
+    
+        return () => { }
+    }, [fields])
+    
+
+    React.useEffect(() => {
+        if(formState.isSubmitSuccessful) setFields([])
+    
+        return () => { }
+    }, [formState.isSubmitSuccessful])
+    
 
     return (
         <Div {...containerProps}>
@@ -51,10 +82,10 @@ export const MultiInputWrapper: React.FC<IMultiInputWrapperProp> = ({
             }
 
             <Div alignSelf='stretch' flexDir='row' flexWrap='wrap'>
-                {
+                 {  fields.length > 0 &&
                     fields.map((field, i) => {
-                        const firstField = children[0].props.name
-                        const index = Object.keys(field).findIndex(name => firstField === name)
+                        const firstInput = children[0].props.name
+                        const index = Object.keys(field).findIndex(name => firstInput === name)
                         const title = Object.values(field)[index]
                         return <Tag
                             key={i}
@@ -80,7 +111,12 @@ export const MultiInputWrapper: React.FC<IMultiInputWrapperProp> = ({
                         return React.cloneElement(child, { ...props, control, name })
                     })
             }
-            <Button my={8} onPress={() => appendField()}>{appendText ? appendText : `Add more ${groupedName}`}</Button>
+            <Button 
+                prefix={<Icon name="pluscircleo" mr="sm" color="primary" fontSize="2xl"  />}
+                variant='bare'
+                onPress={() => appendField()}>
+                {appendText ? appendText : `Add more ${groupedName}`}
+            </Button>
         </Div>
     )
 }
