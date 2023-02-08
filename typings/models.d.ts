@@ -3,7 +3,7 @@
  * Model User
  * 
  */
-export type User = {
+export type IModelUser = {
     id: string
     uid: string | null
     phone: string
@@ -15,9 +15,10 @@ export type User = {
  * Model Runchit
  * 
  */
-export type Runchit = {
+export type IModelRunchit = {
     id: string
     name: string
+    address: string | null
     duitnowqr: string | null
     createdAt: Date
 }
@@ -26,7 +27,7 @@ export type Runchit = {
  * Model StoreRole
  * 
  */
-export type StoreRole = {
+export type IModelStoreRole = {
     id: string
     name: string
     permission: string | null
@@ -37,7 +38,7 @@ export type StoreRole = {
  * Model StoreMember
  * 
  */
-export type StoreMember = {
+export type IModelStoreMember = {
     id: string
     storeId: string
     memberId: string | null
@@ -47,7 +48,7 @@ export type StoreMember = {
  * Model Inventory
  * 
  */
-export type Inventory = {
+export type IModelInventory = {
     id: string
 }
 
@@ -55,7 +56,7 @@ export type Inventory = {
  * Model Product
  * 
  */
-export type Product = {
+export type IModelProduct = {
     id: string
     name: string
     price: number
@@ -69,7 +70,7 @@ export type Product = {
  * Model ProductAttribute
  * 
  */
-export type ProductAttribute = {
+export type IModelProductAttribute = {
     id: number
     name: string
     value: string
@@ -80,7 +81,7 @@ export type ProductAttribute = {
  * Model ProductCategory
  * 
  */
-export type ProductCategory = {
+export type IModelProductCategory = {
     id: number
     name: string
 }
@@ -89,7 +90,7 @@ export type ProductCategory = {
  * Model Supplier
  * 
  */
-export type Supplier = {
+export type IModelSupplier = {
     id: number
     name: string
     contact: string

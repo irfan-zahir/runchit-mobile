@@ -1,15 +1,22 @@
+import { IModelRunchit, IModelUser } from "@typings/models.d";
 
+type IRegisterShopBody = Omit<IModelRunchit, "id", "createdAt">
 
-export interface IDatabaseUser {
-    id: string;
-    phone: string;
-    subscription: string | null;
-    store: any;
-    eligibilities: any;
+interface IRegisterOwnerBody{
+    fullName: string;
+    shops: IRegisterShopBody[]
+}
+
+interface IRegisterOwnerResponse{
+    user: IModelUser;
+    stores: IModelRunchit
+    error?: string;
 }
 
 export interface ICurrentUserResponse {
     message?: string;
-    currentUser?: IDatabaseUser;
+    currentUser?: IModelUser;
     error?: string;
 }
+
+export type IRegisterOwnerAPI = (data: IRegisterOwnerBody)=> Promise<IRegisterOwnerResponse>

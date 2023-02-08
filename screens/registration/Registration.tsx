@@ -1,10 +1,13 @@
+import { registerOwner } from '@api/user.api';
 import { Button } from '@components/button';
 import { Form, FormInput, useForm } from '@components/forms';
 import { MultiInputWrapper } from '@components/forms/multi/MultiInput';
 import { Typography } from '@components/typography'
-import axios from 'axios';
+import { setCurrentUser } from '@rtk/slices/currentUser.slice';
+import { appDispatch } from '@rtk/store';
+import { AuthenticatedScreenProps } from '@typings/navigation.d';
 import React from 'react'
-import { Div, Input } from "react-native-magnus"
+import { Div } from "react-native-magnus"
 
 interface IShopsSchema {
     name: string;
@@ -13,17 +16,20 @@ interface IShopsSchema {
 
 interface FormSchema {
     fullName: string;
-    shops: IShopsSchema
+    shops: IShopsSchema[]
 }
 
-export const Registration = () => {
+export const Registration = ({navigation}: AuthenticatedScreenProps<"Registration">) => {
 
     const formRef = useForm()
+    const dispatch = appDispatch()
 
     const onSubmit = async (formData: FormSchema) => {
-        console.log(formData)
-        const res = await axios.post("/user/registration", formData)
-        console.log(res.data)
+        const res = await registerOwner(formData)
+        if(res.error) {/** handles error */}
+        const {stores, user} = res
+        dispatch(setCurrentUser(user))
+        navigation.navigate("Home")
     }
 
     return (

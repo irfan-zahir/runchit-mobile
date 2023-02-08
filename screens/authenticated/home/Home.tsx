@@ -5,6 +5,8 @@ import { signOut } from "firebase/auth"
 import { AuthenticatedScreenProps } from '@typings/navigation.d'
 import { Typography } from '@components/typography'
 import axios from 'axios'
+import { selector } from '@rtk/store'
+import { selectCurrentUser } from '@rtk/selectors/currentUser.selector'
 
 export const Home = (props: AuthenticatedScreenProps<"Home">) => {
 
@@ -13,10 +15,15 @@ export const Home = (props: AuthenticatedScreenProps<"Home">) => {
         console.log(response.data)
     }
 
+    const {userData} = selector(selectCurrentUser)
+
     return (
         <Div flex={1}>
             <Typography>Home</Typography>
             <Div flex={1} alignItems="center" justifyContent='center'>
+                <Typography>
+                    {JSON.stringify(userData)}
+                </Typography>
                 <Button
                     block
                     onPress={() => signOut(auth)}

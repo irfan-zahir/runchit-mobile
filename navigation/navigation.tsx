@@ -12,8 +12,9 @@ import { getCurrentUserData } from '@api/user.api'
 import { Home, Inventory, Profile, Sales, Store } from '@screens/authenticated'
 import { Registration } from '@screens/registration/Registration'
 import { Login } from '@screens/login/Login'
-import { appDispatch } from '@rtk/store'
+import { appDispatch, selector } from '@rtk/store'
 import { setCurrentUser } from '@rtk/slices/currentUser.slice'
+import { selectCurrentUser } from '@rtk/selectors/currentUser.selector'
 
 import { ActivityIndicator } from "react-native"
 
@@ -52,8 +53,10 @@ const RootNavigator = () => {
         const res = await getCurrentUserData()
 
         if (res.message === "new-user") setInitialRouteName("Registration")
-        if (res.currentUser) dispatch(setCurrentUser(res.currentUser))
-
+        if (res.currentUser) {
+            dispatch(setCurrentUser(res.currentUser))
+            setInitialRouteName("Home")
+        }
         setLoading(false)
     }
 

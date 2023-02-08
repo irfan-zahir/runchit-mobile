@@ -1,9 +1,9 @@
 import { getCurrentUserData } from "@api/user.api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { IDatabaseUser } from "@typings/api.d"
+import { IModelUser } from "@typings/models.d";
 
 interface IInitialState {
-    userData: IDatabaseUser | null
+    userData: IModelUser | null
     loading: boolean;
 }
 
@@ -27,7 +27,7 @@ const usersSlice = createSlice({
         // ping(action, { payload }) {
         //     action.test = payload
         // },
-        setCurrentUser: (action, { payload }: { payload: IDatabaseUser | null }) => {
+        setCurrentUser: (action, { payload }: { payload: IModelUser | null }) => {
             action.loading = false
             action.userData = payload
         },
