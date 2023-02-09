@@ -9,10 +9,15 @@ export const Button: React.FC<React.PropsWithChildren<IButtonProps>> = ({
     variant = "solid",
     bg = "primary",
     ripple = false,
+    color,
     ...props
 }) => {
 
-    let variantProps: RNMButtonProps = { block: true, ripple }
+    let variantProps: RNMButtonProps = {
+        ripple,
+        fontFamily: "cabin-semi",
+        color: color ?? variant === "solid" ? "white" : bg
+    }
 
     switch (variant) {
         case "solid":
@@ -33,7 +38,7 @@ export const Button: React.FC<React.PropsWithChildren<IButtonProps>> = ({
 
     return (
         <RNMButton {...props} {...variantProps} >
-            <Typography fontFamily='cabin-semi' color={variant === "solid" ? "white" : bg} >{children}</Typography>
+            {children}
         </RNMButton>
     )
 }
