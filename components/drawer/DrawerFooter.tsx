@@ -1,15 +1,18 @@
 import { Button } from '@components/button'
 import { DrawerContentComponentProps } from '@react-navigation/drawer'
 import React from 'react'
+import { AuthContext } from '@providers/AuthProvider'
 
 import { Div, Icon } from "react-native-magnus"
 
 interface IDrawerFooterProps extends DrawerContentComponentProps {
-    logout?: () => Promise<void>
+
 }
 
 export const DrawerFooter = (props: IDrawerFooterProps) => {
-    const { state, descriptors, navigation, logout } = props
+    const { logout } = React.useContext(AuthContext)
+    const { state, descriptors, navigation } = props
+
     return (
         <Div flex={1} mb={24} justifyContent="flex-end">
             <Button
