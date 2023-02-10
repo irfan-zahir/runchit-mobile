@@ -7,6 +7,7 @@ import { Typography } from '@components/typography'
 import axios from 'axios'
 import { selector } from '@rtk/store'
 import { selectCurrentUser } from '@rtk/selectors/currentUser.selector'
+import { selectUserStore } from '@rtk/selectors/store.selector'
 
 export const Home = (props: AuthenticatedScreenProps<"Home">) => {
 
@@ -15,14 +16,15 @@ export const Home = (props: AuthenticatedScreenProps<"Home">) => {
         console.log(response.data)
     }
 
-    const {userData} = selector(selectCurrentUser)
+    const { userData } = selector(selectCurrentUser)
+    const { currentStore, stores } = selector(selectUserStore)
 
     return (
         <Div flex={1}>
             <Typography>Home</Typography>
             <Div flex={1} alignItems="center" justifyContent='center'>
                 <Typography>
-                    {JSON.stringify(userData)}
+                    {JSON.stringify(stores)}
                 </Typography>
                 <Button
                     block

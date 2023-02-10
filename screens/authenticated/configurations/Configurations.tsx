@@ -2,8 +2,8 @@ import React from 'react'
 import { Typography } from '@components/typography'
 import { AuthenticatedScreenProps } from '@typings/navigation.d'
 
-export const Store = (props: AuthenticatedScreenProps<"Store">) => {
+export const Configurations = (props: AuthenticatedScreenProps<"Configurations">) => {
     return (
-        <Typography>Store</Typography>
+        <Typography>Configurations</Typography>
     )
 }

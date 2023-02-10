@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native'
-import { AuthenticatedParamList } from '@typings/navigation.d'
+import { AuthenticatedParamList, AuthenticatedScreenProps } from '@typings/navigation.d'
 import React from 'react'
 import { createDrawerNavigator, DrawerNavigationOptions } from "@react-navigation/drawer"
 
@@ -9,20 +9,22 @@ import { Drawer } from '@components/drawer/Drawer'
 import { initializeAxios } from '@api/index'
 import { getCurrentUserData } from '@api/user.api'
 
-import { Home, Inventory, Profile, Sales, Store } from '@screens/authenticated'
+import { Home, Inventory, Profile, Sales, Configurations } from '@screens/authenticated'
 import { Registration } from '@screens/registration/Registration'
 import { Login } from '@screens/login/Login'
 import { appDispatch, selector } from '@rtk/store'
 import { setCurrentUser } from '@rtk/slices/currentUser.slice'
-import { selectCurrentUser } from '@rtk/selectors/currentUser.selector'
 
 import { ActivityIndicator } from "react-native"
+import { selectUserStore } from '@rtk/selectors/store.selector'
+import { fetchStores } from '@rtk/slices/store.slice'
 
 const Navigation = () => {
-    const { userData } = React.useContext(AuthContext)
-    if (userData?.accessToken) initializeAxios(userData.accessToken)
+    const { currentStore } = selector(selectUserStore)
+    const { authUser } = React.useContext(AuthContext)
+    if (authUser?.accessToken) initializeAxios(authUser.accessToken, currentStore?.id)
 
-    return !userData
+    return !authUser
         ? <Login />
         : (
             <NavigationContainer>
@@ -35,12 +37,15 @@ const AuthStack = createDrawerNavigator<AuthenticatedParamList>()
 
 const RootNavigator = () => {
 
-    const screenOptions: DrawerNavigationOptions = {
-        headerShown: false,
-        drawerType: "front",
-        sceneContainerStyle: {
-            paddingTop: 8,
-            paddingHorizontal: 16
+
+    const getScreenOptions: (props: AuthenticatedScreenProps<any>) => DrawerNavigationOptions = ({ route }) => {
+        return {
+            headerShown: false,
+            drawerType: "front",
+            sceneContainerStyle: {
+                paddingTop: route.name === "Profile" ? 0 : 8,
+                paddingHorizontal: route.name === "Profile" ? 0 : 16
+            }
         }
     }
 
@@ -49,19 +54,19 @@ const RootNavigator = () => {
 
     const dispatch = appDispatch()
 
-    const getInitialUserData = async () => {
+    const getInitialData = async () => {
         const res = await getCurrentUserData()
 
         if (res.message === "new-user") setInitialRouteName("Registration")
         if (res.currentUser) {
             dispatch(setCurrentUser(res.currentUser))
-            setInitialRouteName("Home")
+            dispatch(fetchStores())
         }
         setLoading(false)
     }
 
     React.useEffect(() => {
-        getInitialUserData()
+        getInitialData()
 
         return () => { }
     }, [])
@@ -71,14 +76,14 @@ const RootNavigator = () => {
         loading ? <ActivityIndicator />
             : <AuthStack.Navigator
                 initialRouteName={initialRouteName}
-                screenOptions={screenOptions}
+                screenOptions={getScreenOptions}
 
                 drawerContent={(props) => <Drawer {...props} />}>
-                <AuthStack.Screen name='Profile' component={Profile} />
+                <AuthStack.Screen name='Profile' component={Profile} options={{ swipeEnabled: false }} />
                 <AuthStack.Screen name='Home' component={Home} />
                 <AuthStack.Screen name='Sales' component={Sales} />
                 <AuthStack.Screen name='Inventory' component={Inventory} />
-                <AuthStack.Screen name='Store' component={Store} />
+                <AuthStack.Screen name='Configurations' component={Configurations} />
                 <AuthStack.Screen name='Registration' component={Registration} options={{ swipeEnabled: false }} />
             </AuthStack.Navigator>
     )

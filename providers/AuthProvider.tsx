@@ -3,24 +3,21 @@ import { IAuthProviderValue, IUserData } from '@typings/providers.d'
 import firebaseAuth, { User as IFirebaseUser } from "firebase/auth"
 import { auth } from "@configs/firebase.config"
 import { ActivityIndicator } from 'react-native';
-import { appDispatch } from '@rtk/store';
-import { setCurrentUser } from '@rtk/slices/currentUser.slice';
+import { persistor } from '@rtk/store';
 
-export const AuthContext = React.createContext<IAuthProviderValue>({ userData: null, loading: true })
+export const AuthContext = React.createContext<IAuthProviderValue>({ authUser: null, loading: true })
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 
     const [loading, setLoading] = React.useState(true)
-    const [userData, setuserData] = React.useState<IUserData | null>(null)
-
-    const dispatch = appDispatch()
+    const [authUser, setauthUser] = React.useState<IUserData | null>(null)
 
     const onAuthStateChanged = async (user: IFirebaseUser | null) => {
         try {
             if (user) {
                 const accessToken = await user!.getIdToken(true)
-                if (accessToken) setuserData({ ...user!, accessToken })
+                if (accessToken) setauthUser({ ...user!, accessToken })
             } else {
-                setuserData(null)
+                setauthUser(null)
             }
         } catch (e) {
             console.error("Unexpected error in fetching user's token", e)
@@ -35,12 +32,12 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     }, [])
 
     const logout = async () => {
-        dispatch(setCurrentUser(null))
+        await persistor.purge()
         await firebaseAuth.signOut(auth)
     }
 
     return (
-        <AuthContext.Provider value={{ userData, logout, loading }}>
+        <AuthContext.Provider value={{ authUser, logout, loading }}>
             {!loading ? children : <ActivityIndicator animating={true} size="large" />}
         </AuthContext.Provider>
     )

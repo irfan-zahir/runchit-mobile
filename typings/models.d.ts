@@ -8,7 +8,8 @@ export type IModelUser = {
     uid: string | null
     phone: string
     subscription: string | null
-    fullName: string
+    fullName: string;
+    memberOf: Array<unknown>
 }
 
 /**
@@ -42,6 +43,7 @@ export type IModelStoreMember = {
     id: string
     storeId: string
     memberId: string | null
+    roles: Array<unknown>
 }
 
 /**

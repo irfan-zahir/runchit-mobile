@@ -2,14 +2,14 @@ import { IModelRunchit, IModelUser } from "@typings/models.d";
 
 type IRegisterShopBody = Omit<IModelRunchit, "id", "createdAt">
 
-interface IRegisterOwnerBody{
+interface IRegisterOwnerBody {
     fullName: string;
     shops: IRegisterShopBody[]
 }
 
-interface IRegisterOwnerResponse{
+interface IRegisterOwnerResponse {
     user: IModelUser;
-    stores: IModelRunchit
+    stores: Array<IModelRunchit>
     error?: string;
 }
 
@@ -19,4 +19,4 @@ export interface ICurrentUserResponse {
     error?: string;
 }
 
-export type IRegisterOwnerAPI = (data: IRegisterOwnerBody)=> Promise<IRegisterOwnerResponse>
+export type IRegisterOwnerAPI = (data: IRegisterOwnerBody) => Promise<IRegisterOwnerResponse>

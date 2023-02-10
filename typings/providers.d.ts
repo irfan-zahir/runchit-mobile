@@ -8,7 +8,7 @@ interface IUserData extends IFirebaseUser {
 }
 
 export interface IAuthProviderValue {
-    userData: IUserData | null;
+    authUser: IUserData | null;
     loading: boolean;
     logout?: () => Promise<void>;
 }

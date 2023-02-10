@@ -10,10 +10,10 @@ export const Drawer = (props: DrawerContentComponentProps) => {
 
     const { state, descriptors, navigation } = props
 
-    const [profileRoute, ...drawerRoutes] = state.routeNames
+    const [profileRoute, ...drawerRoutes] = state.routeNames.slice(0, -1)
     const currentScreenIndex = state.index - 1
 
-    const navigateToProfile = () => navigation.navigate(profileRoute)
+    const navigateToProfile = () => navigation.navigate(profileRoute, { previousScreen: state.routeNames[state.index] })
 
     return (
         <Div flex={1}>

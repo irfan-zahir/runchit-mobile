@@ -6,11 +6,11 @@ interface IHomeProps {
 }
 
 export type AuthenticatedParamList = {
-    Profile: undefined;
+    Profile: { previousScreen: keyof AuthenticatedParamList };
     Home: undefined;
     Sales: undefined;
     Inventory: undefined;
-    Store: undefined;
+    Configurations: undefined;
     Registration: undefined;
 }
 

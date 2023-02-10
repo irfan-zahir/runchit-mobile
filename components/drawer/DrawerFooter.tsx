@@ -1,30 +1,42 @@
 import { Button } from '@components/button'
+import { Typography } from '@components/typography'
+import useModal from '@hooks/useModal'
 import { DrawerContentComponentProps } from '@react-navigation/drawer'
+import { selectUserStore } from '@rtk/selectors/store.selector'
+import { selector } from '@rtk/store'
 import React from 'react'
-import { AuthContext } from '@providers/AuthProvider'
 
 import { Div, Icon } from "react-native-magnus"
+import { SwitchStoreModal } from './SwitchStoreModal'
 
 interface IDrawerFooterProps extends DrawerContentComponentProps {
 
 }
 
 export const DrawerFooter = (props: IDrawerFooterProps) => {
-    const { logout } = React.useContext(AuthContext)
     const { state, descriptors, navigation } = props
+
+    const { currentStore, stores } = selector(selectUserStore)
+    const storeCount = stores?.length ?? 0
+
+    const storesModal = useModal()
 
     return (
         <Div flex={1} mb={24} justifyContent="flex-end">
             <Button
+                block
                 mb={8}
-                justifyContent='flex-start'
                 variant="bare"
-                bg="danger"
-                onPress={async () => await (logout && logout())}
-                prefix={<Icon fontFamily='MaterialIcons' fontSize={24} mr={8} name='logout' color='danger' />}
+                bg="secondary"
+                onPress={async () => storesModal.openModal()}
+                prefix={<Icon fontFamily='MaterialIcons' fontSize={24} mr={8} name='storefront' color='secondary' />}
+                suffix={<Icon fontFamily='MaterialIcons' fontSize={24} mr={8} name='swap-horiz' color='secondary' />}
             >
-                Logout
+                <Typography flex={1} color="secondary">
+                    {currentStore?.name}
+                </Typography>
             </Button>
+            <SwitchStoreModal {...storesModal} />
         </Div>
     )
 }
