@@ -3,7 +3,7 @@ import { Div } from "react-native-magnus"
 import { useForm as useReactHookForm, FieldValues, FormProvider } from "react-hook-form"
 import { IFormProps, IFormRef, PropsWithStandardRef } from './forms.d'
 
-export const useForm = () => React.createRef<IFormRef>()
+export const useForm: (<T extends FieldValues>() => React.RefObject<IFormRef<T>>) = () => React.createRef()
 
 export const Form: (<T extends FieldValues>(props: PropsWithStandardRef<T>) => React.ReactElement | null)
     = React.forwardRef(({
@@ -11,12 +11,21 @@ export const Form: (<T extends FieldValues>(props: PropsWithStandardRef<T>) => R
         children,
         defaultValues,
         onSubmit,
+        onChange,
         ...containerProps
     }, ref) => {
         const methods = useReactHookForm({ mode: "onChange", defaultValues })
         const { control, handleSubmit, reset, watch, formState } = methods
 
-        React.useImperativeHandle(ref, () => ({ submit: handleSubmit(onSubmit), reset }))
+        React.useImperativeHandle(ref, () => ({ submit: onSubmit && handleSubmit(onSubmit), reset }))
+
+        // listen to form changes
+        React.useEffect(() => {
+            onChange && onChange(watch())
+
+            return () => { }
+        }, [watch()])
+
 
         React.useEffect(() => {
 

@@ -81,8 +81,8 @@ const RootNavigator = () => {
                 drawerContent={(props) => <Drawer {...props} />}>
                 <AuthStack.Screen name='Profile' component={Profile} options={{ swipeEnabled: false }} />
                 <AuthStack.Screen name='Home' component={Home} />
-                <AuthStack.Screen name='Sales' component={Sales} />
                 <AuthStack.Screen name='Inventory' component={Inventory} />
+                <AuthStack.Screen name='Sales' component={Sales} />
                 <AuthStack.Screen name='Configurations' component={Configurations} />
                 <AuthStack.Screen name='Registration' component={Registration} options={{ swipeEnabled: false }} />
             </AuthStack.Navigator>

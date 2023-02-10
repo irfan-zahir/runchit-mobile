@@ -32,7 +32,8 @@ export const SwitchStoreModal = ({ isVisible, closeModal }: ISwitchStoreModalPro
 
     const [addStore, setAddStore] = React.useState(false)
     const [deleteStore, setDeleteStore] = React.useState<number | false>(false)
-    const formRef = useForm()
+    const formRef = useForm<FormSchema>()
+    const submitForm = formRef!.current?.submit
 
     const dispatch = appDispatch()
 
@@ -127,7 +128,7 @@ export const SwitchStoreModal = ({ isVisible, closeModal }: ISwitchStoreModalPro
                     <Div>
 
                         <Button block variant="ghost" bg="secondary" mb="md"
-                            onPress={() => !addStore ? setAddStore(true) : formRef.current?.submit()}
+                            onPress={() => !addStore ? setAddStore(true) : (submitForm && submitForm())}
                             prefix={<Icon name="pluscircleo" mr="sm" color="secondary" fontSize="caption" />}>
                             Add Store
                         </Button>

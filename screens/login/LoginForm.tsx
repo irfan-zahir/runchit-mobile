@@ -21,7 +21,8 @@ export const LoginForm = ({ isModalVisible, setModalVisible }: ILoginFormProps) 
     const recaptchaVerifier = React.useRef<FirebaseRecaptchaVerifierModal>(null)
 
     const [verificationId, setVerificationId] = React.useState<string | null>(null)
-    const formRef = useForm()
+    const formRef = useForm<FormSchema>()
+    const submitForm = formRef.current?.submit
 
     const login = async (phoneNumber: string) => {
         try {
@@ -72,7 +73,7 @@ export const LoginForm = ({ isModalVisible, setModalVisible }: ILoginFormProps) 
                 </Div>
                 <Button
                     block
-                    onPress={() => formRef.current?.submit()}>
+                    onPress={() => submitForm && submitForm()}>
                     {!verificationId ? "Request TAC" : "Validate"}
                 </Button>
                 <Button

@@ -21,7 +21,8 @@ interface FormSchema {
 
 export const Registration = ({ navigation }: AuthenticatedScreenProps<"Registration">) => {
 
-    const formRef = useForm()
+    const formRef = useForm<FormSchema>()
+    const submitForm = formRef.current?.submit
     const dispatch = appDispatch()
 
     const onSubmit = async (formData: FormSchema) => registerOwner(formData)
@@ -42,7 +43,7 @@ export const Registration = ({ navigation }: AuthenticatedScreenProps<"Registrat
                 </MultiInputWrapper>
             </Form>
 
-            <Button onPress={() => formRef.current?.submit()} block>Submit</Button>
+            <Button onPress={() => submitForm && submitForm()} block>Submit</Button>
         </Div>
     )
 }

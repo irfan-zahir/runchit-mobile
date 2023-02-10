@@ -1,24 +1,25 @@
 import React from "react"
-import { Control, FieldValues, UseFormHandleSubmit, UseFormReset } from "react-hook-form"
+import { Control, DeepPartial, FieldValues, UseFormHandleSubmit, UseFormReset } from "react-hook-form"
 import { DivProps as RNMContainerProps } from "react-native-magnus"
 
 export type IInputState = "success" | "warning" | "danger"
 
 
-export interface IFormRef {
+export interface IFormRef<T extends FieldValues> {
     showAlert?: any;
-    submit: (e?: React.BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>,
-    reset: UseFormReset<FieldValues>
+    submit?: (e?: React.BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>,
+    reset: UseFormReset<T>
 }
 
 export interface IFormProps<T extends FieldValues> extends RNMContainerProps {
-    onSubmit: (data: T) => void
-    defaultValues?: DeepPartial<T> | AsyncDefaultValues<T> | undefined;
+    onChange?: (data: T) => void
+    onSubmit?: (data: T) => void
+    defaultValues?: DeepPartial<T>;
     children: React.ReactElement | React.ReactElement[]
     height?: number | string;
 }
 
-export type PropsWithStandardRef<T extends FieldValues> = IFormProps<T> & { ref?: React.Ref<IFormRef> };
+export type PropsWithStandardRef<T extends FieldValues> = IFormProps<T> & { ref?: React.Ref<IFormRef<T>> };
 
 export interface ICommonFormProps {
     name: string;

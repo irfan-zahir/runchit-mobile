@@ -24,7 +24,7 @@ export const DrawerHeader = ({ navigateToProfile }: IDrawerHeaderProps) => {
                 <Pressable onPress={() => navigateToProfile()}>
                     <Avatar bg='secondary' color='gray400'>{userData?.fullName[0]}</Avatar>
                 </Pressable>
-                <Pressable onPress={() => roleModal.openModal()}>
+                <Pressable style={{ flex: 1 }} onPress={() => roleModal.openModal()}>
                     <Div flexDir='column' justifyContent='flex-start' p={4} ms={16}>
                         <Typography variant='subtitle' color='gray400' mb={8}>Hello, {userData?.fullName}!</Typography>
                         <Div flexDir='row' alignSelf='stretch' justifyContent='space-between'>
