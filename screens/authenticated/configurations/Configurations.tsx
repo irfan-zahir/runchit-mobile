@@ -1,9 +1,5 @@
 import React from 'react'
-import { Typography } from '@components/typography'
 import { AuthenticatedScreenProps } from '@typings/navigation.d'
+import { ConfigurationsNavigation } from '@navigation/configNavigation'
 
-export const Configurations = (props: AuthenticatedScreenProps<"Configurations">) => {
-    return (
-        <Typography>Configurations</Typography>
-    )
-}
+export const Configurations = (props: AuthenticatedScreenProps<"Configurations">) => <ConfigurationsNavigation />

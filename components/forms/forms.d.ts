@@ -9,6 +9,7 @@ export interface IFormRef<T extends FieldValues> {
     showAlert?: any;
     submit?: (e?: React.BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>,
     reset: UseFormReset<T>
+    setFocus: (string) => void
 }
 
 export interface IFormProps<T extends FieldValues> extends RNMContainerProps {

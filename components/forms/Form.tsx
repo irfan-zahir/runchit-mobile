@@ -15,9 +15,9 @@ export const Form: (<T extends FieldValues>(props: PropsWithStandardRef<T>) => R
         ...containerProps
     }, ref) => {
         const methods = useReactHookForm({ mode: "onChange", defaultValues })
-        const { control, handleSubmit, reset, watch, formState } = methods
+        const { control, handleSubmit, reset, watch, formState, setFocus } = methods
 
-        React.useImperativeHandle(ref, () => ({ submit: onSubmit && handleSubmit(onSubmit), reset }))
+        React.useImperativeHandle(ref, () => ({ submit: onSubmit && handleSubmit(onSubmit), reset, setFocus }))
 
         // listen to form changes
         React.useEffect(() => {

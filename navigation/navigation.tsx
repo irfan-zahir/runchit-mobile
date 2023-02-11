@@ -43,8 +43,8 @@ const RootNavigator = () => {
             headerShown: false,
             drawerType: "front",
             sceneContainerStyle: {
-                paddingTop: route.name === "Profile" ? 0 : 8,
-                paddingHorizontal: route.name === "Profile" ? 0 : 16
+                paddingTop: route.name === "Profile" || route.name === "Configurations" ? 0 : 8,
+                paddingHorizontal: route.name === "Profile" || route.name === "Configurations" ? 0 : 16
             }
         }
     }
