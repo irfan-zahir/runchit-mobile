@@ -4,4 +4,4 @@ type IBaseSystemColors = IBaseColor<"grey"> | IBaseColor<"red"> | IBaseColor<"or
     | IBaseColor<"green"> | IBaseColor<"teal"> | IBaseColor<"blue"> | IBaseColor<"indigo"> | IBaseColor<"purple"> | IBaseColor<"pink">
 
 
-export type IBackgroundColors = IBaseSystemColors | "primary" | "secondary" | "tertiery" | "success" | "warning" | "danger" | "white" | "black"
+export type IBackgroundColors = IBaseSystemColors | "primary" | "secondary" | "tertiery" | "success" | "warning" | "danger" | "white" | "black" | "transparent"
