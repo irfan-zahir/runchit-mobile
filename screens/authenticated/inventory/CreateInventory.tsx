@@ -10,9 +10,14 @@ import { Pressable, ScrollView } from "react-native"
 import { SkuScanner } from './SkuScanner'
 import { MultiInputWrapper } from '@components/forms'
 
+type IFormAttributes = {name: string; value: string}
 interface FormSchema {
     name: string;
     sku: string;
+    price: string;
+    attributes: IFormAttributes[];
+    quantity: number;
+    supplier: string;
 }
 
 export const CreateInventory = () => {
@@ -33,6 +38,10 @@ export const CreateInventory = () => {
         setShowScanner(false)
     }
 
+    const onSubmit = (formData: FormSchema)=>{
+        
+    } 
+
     return (
         <>
             <Button
@@ -48,7 +57,7 @@ export const CreateInventory = () => {
                 <ScrollView>
                     <Div flex={1} px={16}>
                         <Typography color='primary' variant='title'>Create Product</Typography>
-                        <Form<FormSchema> ref={formRef} onSubmit={(formData) => console.log({ formData })} >
+                        <Form<FormSchema> ref={formRef} onSubmit={onSubmit} >
                             {
                                 !showScanner
                                     ? <FormInput required suffix={<SkuSuffix />} label='Product SKU' name='sku' />
