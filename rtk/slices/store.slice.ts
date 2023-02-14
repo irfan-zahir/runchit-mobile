@@ -23,7 +23,6 @@ const storeSlice = createSlice({
     reducers: {
         setCurrentStore(action, { payload }: { payload: IModelRunchit | null }) {
             action.loading = false
-            console.log("set current store ", payload)
             action.currentStore = payload
         },
         setStores(action, { payload }: { payload: IModelRunchit[] | null }) {

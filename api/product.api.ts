@@ -1,12 +1,12 @@
 import { IModelProduct } from "@typings/models";
 import axios from "axios";
 
-interface IProductCreateBody{
+interface IProductCreateBody {
     product: {
         name: string;
         sku: string;
         price: string;
-        attributes: {name: string; value: string}[];
+        attributes: { name: string; value: string }[];
         quantity: number;
         supplier: string;
     }
@@ -17,4 +17,6 @@ type ICreateShopResponse = {
     error?: string
 }
 
-export const createProductAPI = (data:IProductCreateBody)=>axios.post<ICreateShopResponse>("/product/create", data).then(({data})=>data)
+export const getProductsAPI = () => axios.get<Array<IModelProduct>>("/product").then(({ data }) => data)
+
+export const createProductAPI = (data: IProductCreateBody) => axios.post<ICreateShopResponse>("/product/create", data).then(({ data }) => data)
