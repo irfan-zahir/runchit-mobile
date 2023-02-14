@@ -1,7 +1,6 @@
 import { createStoreAPI } from '@api/store.api';
 import { Button } from '@components/button'
-import { Form, FormInput, useForm } from '@components/forms';
-import { MultiInputWrapper } from '@components/forms/multi/MultiInput';
+import { Form, FormInput, MultiInputWrapper, useForm } from '@components/forms';
 import { Typography } from '@components/typography'
 import { selectUserStore } from '@rtk/selectors/store.selector';
 import { setCurrentStore, setStores } from '@rtk/slices/store.slice';

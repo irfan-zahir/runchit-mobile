@@ -38,7 +38,7 @@ export const SkuScanner = ({ onScanned }: ISkuScannerProps) => {
     const handleBarcodeScanned: BarCodeScannedCallback = ({ data }) => onScanned(data)
 
     return (
-        <Div h={55} w="100%" bg="primary" mt={24} mb={4}>
+        <Div h={45} w="100%" bg="primary">
             {
                 !isLoading && !hasPermission &&
                 <Div flex={1} justifyContent="center">

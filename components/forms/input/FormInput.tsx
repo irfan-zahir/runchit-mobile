@@ -21,7 +21,7 @@ export const FormInput: React.FC<IFormInputProps> = React.forwardRef(({
 
   return (
     <Wrapper {...wrapperProps} >
-      <RNMInput {...stateProps} {...props} onBlur={() => Keyboard.dismiss()} ref={ref} />
+      <RNMInput px={8} py={4} h={45} {...stateProps} {...props} onBlur={() => Keyboard.dismiss()} ref={ref} />
     </Wrapper>
   )
 })

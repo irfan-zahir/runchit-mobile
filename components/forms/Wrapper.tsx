@@ -1,7 +1,7 @@
 import { Typography } from '@components/typography';
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form';
-import { Div } from 'react-native-magnus';
+import { Div, Icon } from 'react-native-magnus';
 import { ICommonFormProps as IWrapperProps } from './forms.d';
 
 export const Wrapper: React.FC<React.PropsWithChildren<IWrapperProps>> 
@@ -27,9 +27,19 @@ export const Wrapper: React.FC<React.PropsWithChildren<IWrapperProps>>
                     <Div my={4}>
                         {
                             label &&
+                            <Div flexDir='row'>
                             <Typography color='primary' variant='subtitle' mb={4}>
                                 {label}
                             </Typography>
+                                {
+                                    required && 
+                                    <Div ml={8} flexDir='row'>
+                                        <Typography variant='subtitle' color='danger'>*</Typography>
+                                        <Typography variant='small' color='danger'>required</Typography>                                    
+                                    </Div>
+                                }
+                            </Div>
+
                         }
 
                         {/* input component display here */}

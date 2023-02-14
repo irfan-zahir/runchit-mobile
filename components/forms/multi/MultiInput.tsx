@@ -26,6 +26,7 @@ export const MultiInputWrapper: React.FC<IMultiInputWrapperProp> = ({
     } = useFormContext()
 
     const [fields, setFields] = React.useState<Record<string, any>[]>([])
+    const [ableAddMore, setAbleAddMore] = React.useState(false)
 
     const validateFields = async ()=>{
         const names = React.Children.map(children, child => `${groupedName}.${fields.length}.${child.props.name}`)
@@ -70,6 +71,21 @@ export const MultiInputWrapper: React.FC<IMultiInputWrapperProp> = ({
     
         return () => { }
     }, [formState.isSubmitSuccessful])
+
+    React.useEffect(() => {
+        if(watch(groupedName)){        
+            const currentGroup = {...watch(groupedName)[fields.length]}
+            const isIncomplete = Object.values(currentGroup).findIndex(val=> val === undefined || val === "") > -1
+            
+            if(!ableAddMore && !isIncomplete) setAbleAddMore(true)
+            if(ableAddMore && isIncomplete) setAbleAddMore(false)
+        }
+    
+      return () => {
+        
+      }
+    }, [watch()])
+    
     
 
     return (
@@ -112,9 +128,14 @@ export const MultiInputWrapper: React.FC<IMultiInputWrapperProp> = ({
                     })
             }
             <Button 
-                prefix={<Icon name="pluscircleo" mr="sm" color="primary" fontSize="2xl"  />}
+                prefix={<Icon 
+                    name="pluscircleo" 
+                    mr="sm" 
+                    color={ableAddMore ? "primary" : "grey"}
+                    fontSize="2xl"  />}
+                bg={ableAddMore ? "primary" : "grey"}
                 variant='bare'
-                onPress={() => appendField()}>
+                onPress={() => ableAddMore && appendField()}>
                 {appendText ? appendText : `Add more ${groupedName}`}
             </Button>
         </Div>

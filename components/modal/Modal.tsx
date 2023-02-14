@@ -13,6 +13,7 @@ interface IModalProps extends Omit<RNMModalProps, "ref"> {
     onClose?: () => void;
     maxHeight?: string | number;
     swipeDownToClose?: boolean;
+    closeOnPressBackdrop?: boolean;
 }
 
 export const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
@@ -25,6 +26,7 @@ export const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
     swipeDownToClose = false,
     onBackdropPress,
     onDismiss,
+    closeOnPressBackdrop,
     ...props
 }) => {
 
@@ -32,9 +34,11 @@ export const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
     const [modalHeight, setModalHeight] = React.useState(height)
 
     const backdropPress = () => {
-        onClose && onClose()
         onBackdropPress && onBackdropPress()
-        close()
+        if(closeOnPressBackdrop){
+            onClose && onClose()
+            close()
+        }
     }
 
     const onSwipeComplete = ({ swipingDirection }: OnSwipeCompleteParams) => {

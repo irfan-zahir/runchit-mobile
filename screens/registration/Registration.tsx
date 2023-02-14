@@ -1,7 +1,6 @@
 import { registerOwner } from '@api/user.api';
 import { Button } from '@components/button';
-import { Form, FormInput, useForm } from '@components/forms';
-import { MultiInputWrapper } from '@components/forms/multi/MultiInput';
+import { Form, FormInput, useForm, MultiInputWrapper } from '@components/forms';
 import { Typography } from '@components/typography'
 import { setCurrentUser } from '@rtk/slices/currentUser.slice';
 import { setCurrentStore, setStores } from '@rtk/slices/store.slice';
