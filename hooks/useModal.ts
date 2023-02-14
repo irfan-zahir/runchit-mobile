@@ -7,5 +7,17 @@ export default function () {
     const closeModal = () => setIsVisible(false)
     const toggleModal = () => setIsVisible(!isVisible)
 
-    return { isVisible, openModal, closeModal, toggleModal }
+    let modalRef = {
+        isVisible,
+        set: (visible: boolean) => setIsVisible(visible)
+    }
+
+    React.useEffect(() => {
+        modalRef.isVisible = isVisible
+
+        return () => { }
+    }, [isVisible])
+
+
+    return { isVisible, openModal, closeModal, toggleModal, modalRef }
 }

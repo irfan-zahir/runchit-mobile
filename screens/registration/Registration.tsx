@@ -3,7 +3,8 @@ import { Button } from '@components/button';
 import { Form, FormInput, useForm } from '@components/forms';
 import { MultiInputWrapper } from '@components/forms/multi/MultiInput';
 import { Typography } from '@components/typography'
-import { setCurrentStore } from '@rtk/slices/store.slice';
+import { setCurrentUser } from '@rtk/slices/currentUser.slice';
+import { setCurrentStore, setStores } from '@rtk/slices/store.slice';
 import { appDispatch } from '@rtk/store';
 import { AuthenticatedScreenProps } from '@typings/navigation.d';
 import React from 'react'
@@ -22,11 +23,12 @@ interface FormSchema {
 export const Registration = ({ navigation }: AuthenticatedScreenProps<"Registration">) => {
 
     const formRef = useForm<FormSchema>()
-    const submitForm = formRef.current?.submit
     const dispatch = appDispatch()
 
     const onSubmit = async (formData: FormSchema) => registerOwner(formData)
-        .then(({ stores }) => {
+        .then(({ stores, user }) => {
+            dispatch(setCurrentUser(user))
+            dispatch(setStores(stores))
             dispatch(setCurrentStore(stores[0]))
             navigation.navigate("Home")
         })
@@ -43,7 +45,7 @@ export const Registration = ({ navigation }: AuthenticatedScreenProps<"Registrat
                 </MultiInputWrapper>
             </Form>
 
-            <Button onPress={() => submitForm && submitForm()} block>Submit</Button>
+            <Button onPress={() => formRef.current?.submit && formRef.current?.submit()} block>Submit</Button>
         </Div>
     )
 }

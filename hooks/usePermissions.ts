@@ -23,13 +23,15 @@ export default function () {
         setIsLoading(false)
     }
 
+    const askCameraPermission = () => {
+        (async () => {
+            const { granted: cameraGranted } = await BarCodeScanner.requestPermissionsAsync()
+            setPermissions({ camera: cameraGranted })
+        })()
+    }
+
     const askSystemPermissions = () => {
-        if (!permissions.camera) {
-            (async () => {
-                const { granted: cameraGranted } = await BarCodeScanner.requestPermissionsAsync()
-                setPermissions({ camera: cameraGranted })
-            })()
-        }
+        if (!permissions.camera) askCameraPermission()
     }
 
     React.useEffect(() => {
@@ -39,5 +41,5 @@ export default function () {
         return () => { }
     }, [isLoading])
 
-    return permissions
+    return { permissions, askCameraPermission }
 }

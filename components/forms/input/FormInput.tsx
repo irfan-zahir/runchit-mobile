@@ -2,7 +2,7 @@ import React from 'react'
 import { Input as RNMInput, InputProps as RNMInputProps } from "react-native-magnus"
 import { Wrapper } from '../Wrapper'
 import { ICommonFormProps } from "../forms.d"
-import { TextInput } from 'react-native'
+import { Keyboard, TextInput } from 'react-native'
 
 type IWrapperProps = Omit<ICommonFormProps, "children">
 
@@ -21,7 +21,7 @@ export const FormInput: React.FC<IFormInputProps> = React.forwardRef(({
 
   return (
     <Wrapper {...wrapperProps} >
-      <RNMInput {...stateProps} {...props} ref={ref} />
+      <RNMInput {...stateProps} {...props} onBlur={() => Keyboard.dismiss()} ref={ref} />
     </Wrapper>
   )
 })

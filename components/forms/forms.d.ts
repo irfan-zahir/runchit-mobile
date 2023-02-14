@@ -1,5 +1,5 @@
 import React from "react"
-import { Control, DeepPartial, FieldValues, UseFormHandleSubmit, UseFormReset } from "react-hook-form"
+import { Control, DeepPartial, FieldValues, UseFormHandleSubmit, UseFormReset, UseFormSetValue } from "react-hook-form"
 import { DivProps as RNMContainerProps } from "react-native-magnus"
 
 export type IInputState = "success" | "warning" | "danger"
@@ -10,6 +10,7 @@ export interface IFormRef<T extends FieldValues> {
     submit?: (e?: React.BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>,
     reset: UseFormReset<T>
     setFocus: (string) => void
+    setValue: UseFormSetValue<T>
 }
 
 export interface IFormProps<T extends FieldValues> extends RNMContainerProps {

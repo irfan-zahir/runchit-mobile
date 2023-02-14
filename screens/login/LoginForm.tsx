@@ -1,5 +1,5 @@
 import React from 'react'
-import { Div, Text, Button, Modal } from "react-native-magnus"
+import { Div, Text, Modal } from "react-native-magnus"
 
 import { app } from "@configs/firebase.config"
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha"
@@ -7,6 +7,7 @@ import { Form, FormInput, useForm } from '@components/forms';
 
 import { auth } from '@configs/firebase.config';
 import { signInWithPhoneNumber } from "firebase/auth"
+import { Button } from '@components/button';
 
 interface ILoginFormProps { isModalVisible?: boolean; setModalVisible: any }
 
@@ -22,7 +23,6 @@ export const LoginForm = ({ isModalVisible, setModalVisible }: ILoginFormProps) 
 
     const [verificationId, setVerificationId] = React.useState<string | null>(null)
     const formRef = useForm<FormSchema>()
-    const submitForm = formRef.current?.submit
 
     const login = async (phoneNumber: string) => {
         try {
@@ -73,7 +73,7 @@ export const LoginForm = ({ isModalVisible, setModalVisible }: ILoginFormProps) 
                 </Div>
                 <Button
                     block
-                    onPress={() => submitForm && submitForm()}>
+                    onPress={() => formRef.current?.submit && formRef.current?.submit()}>
                     {!verificationId ? "Request TAC" : "Validate"}
                 </Button>
                 <Button
