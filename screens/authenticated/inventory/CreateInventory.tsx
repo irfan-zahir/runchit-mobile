@@ -9,6 +9,7 @@ import { Div, Icon } from 'react-native-magnus'
 import { Pressable, ScrollView } from "react-native"
 import { SkuScanner } from './SkuScanner'
 import { MultiInputWrapper } from '@components/forms'
+import { createProductAPI } from '@api/product.api'
 
 type IFormAttributes = {name: string; value: string}
 interface FormSchema {
@@ -38,8 +39,11 @@ export const CreateInventory = () => {
         setShowScanner(false)
     }
 
-    const onSubmit = (formData: FormSchema)=>{
-        
+    const onSubmit = async (formData: FormSchema)=>{
+        const createdProduct = await createProductAPI({product: formData})
+        if(!createdProduct.error){
+            console.log({createdProduct})
+        }
     } 
 
     return (
