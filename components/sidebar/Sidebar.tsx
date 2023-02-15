@@ -26,17 +26,16 @@ export const Sidebar = ({ navigation, state, previousScreen }: ISidebarProps) =>
                 insets => (
                     <Div flex={1} pt={insets?.top} pb={insets?.bottom} alignItems="center">
                         <Pressable
-                            onPress={() => navigateToProfile()}
-                            style={{ marginTop: 4 }}>
+                            onPress={() => navigateToProfile()}>
                             <Icon
                                 fontFamily='Octicons'
                                 name='feed-person'
                                 color='primary'
-                                fontSize={32} />
+                                fontSize={40} />
                         </Pressable>
                         <Div flex={1} justifyContent="flex-end" mb={12}>
                             <Pressable style={{ marginBottom: 32 }} onPress={() => rolesModal.openModal()}>
-                                <Icon fontFamily='MaterialCommunityIcons' fontSize={32} name='shield-sync-outline' color='secondary' />
+                                <Icon fontFamily='MaterialCommunityIcons' fontSize={32} name='shield-sync' color='secondary' />
                                 <SwitchRoleModal {...rolesModal} />
                             </Pressable>
                             <Pressable style={{ marginBottom: 32 }} onPress={() => storesModal.openModal()}>
