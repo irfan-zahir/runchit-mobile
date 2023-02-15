@@ -10,23 +10,32 @@ export const TabBar: React.FC<BottomTabBarProps> = (props) => {
     const [profileRoute, ...drawerRoutes] = state.routeNames.slice(0, -1)
 
     const getNavigatorIcon = (route: string, isActive: boolean) => {
-        const style = { fontSize: 32, color: isActive ? "white" : "primary" }
+        const style = { fontSize: isActive ? 24 : 32, color: isActive ? "white" : "primary" }
 
         if (route === "Home") return <Icon {...style} fontFamily='MaterialCommunityIcons' name='home-assistant' />
         if (route === "Inventory") return <Icon {...style} fontFamily='MaterialCommunityIcons' name='package-variant' />
         if (route === "Sales") return <Icon {...style} fontFamily='MaterialCommunityIcons' name='point-of-sale' />
-        if (route === "Settings") return <Icon {...style} fontFamily='Ionicons' name='ios-settings' />
+        if (route === "Settings") return <Icon {...style} fontFamily='MaterialIcons' name='settings' />
         return undefined
     }
 
+    if(state.routeNames[state.index] === "Profile" 
+    || state.routeNames[state.index] === "Register") return null
+
     return (
-        <Div flexDir='row' justifyContent='center' pt={8} pb={insets.bottom}>
+        <Div 
+        flexDir='row'
+        alignItems='center' 
+        justifyContent='center' 
+        bg='base' 
+        rounded="circle" 
+        shadow="sm" 
+        py={8} mx={16} mb={insets.bottom}>
             {
                 drawerRoutes.map((route, i) => {
                     const isActive = activeIndex === i
                     const containerStyle: DivProps = {
                         flexDir: 'row',
-                        alignItems: "center",
                         rounded: "circle",
                         px: 8, py: 4,
                         bg: isActive ? "primary" : undefined,

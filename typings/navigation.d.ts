@@ -1,4 +1,5 @@
-import { DrawerScreenProps } from "@react-navigation/drawer";
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+// import { DrawerScreenProps } from "@react-navigation/drawer";
 import { CompositeScreenProps } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -7,7 +8,7 @@ interface IHomeProps {
 }
 
 export type AuthenticatedParamList = {
-    "Profile": { previousScreen: keyof AuthenticatedParamList };
+    "Profile": { previousScreen: number };
     "Home": undefined;
     "Sales": undefined;
     "Inventory": undefined;
@@ -15,7 +16,7 @@ export type AuthenticatedParamList = {
     "Registration": undefined;
 }
 
-export type AuthenticatedScreenProps<Screen extends keyof AuthenticatedParamList> = DrawerScreenProps<AuthenticatedParamList, Screen>
+export type AuthenticatedScreenProps<Screen extends keyof AuthenticatedParamList> = BottomTabScreenProps<AuthenticatedParamList, Screen>
 
 export type ConfigurationsParamList = {
     "Configurations List": undefined;

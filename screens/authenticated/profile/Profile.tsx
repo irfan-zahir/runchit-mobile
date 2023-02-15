@@ -7,10 +7,14 @@ import { selectCurrentUser } from '@rtk/selectors/currentUser.selector'
 import { Button } from '@components/button'
 import { Pressable } from 'react-native'
 import { AuthContext } from '@providers/AuthProvider'
+import { CommonActions } from '@react-navigation/native'
 
 export const Profile = ({ navigation, route }: AuthenticatedScreenProps<"Profile">) => {
     const { userData } = selector(selectCurrentUser)
     const { previousScreen } = route.params
+    const {routeNames} = navigation.getState()
+    
+    const goBack = ()=> navigation.dispatch(CommonActions.navigate(routeNames[previousScreen]))
 
     const { logout } = React.useContext(AuthContext)
 
@@ -18,8 +22,7 @@ export const Profile = ({ navigation, route }: AuthenticatedScreenProps<"Profile
         <Div flex={1}>
             <Div flex={1} bg="primary" position='relative' px={16}>
                 <Div flexDir='row' justifyContent='space-between'>
-                    <Pressable
-                        onPress={() => navigation.navigate(previousScreen as any)}>
+                    <Pressable onPress={() => goBack()}>
                         <Div mb="md" px={0} py={8}
                             flexDir='row' justifyContent='flex-start'>
                             <Icon name="arrow-back-ios" fontFamily='MaterialIcons' mr="lg" color="white" fontSize="2xl" />

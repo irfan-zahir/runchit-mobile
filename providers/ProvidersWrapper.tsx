@@ -13,9 +13,7 @@ export const ProvidersWrapper: React.FC<React.PropsWithChildren> = ({ children }
             <PersistGate persistor={persistor}>
                 <ThemeProvider>
                     <AuthProvider>
-                        <SafeAreaInsetsContext.Consumer>
-                            {insets => <Div bg='transparent' flex={1} pt={insets?.top}>{children}</Div>}
-                        </SafeAreaInsetsContext.Consumer>
+                        {children}
                     </AuthProvider>
                 </ThemeProvider>
             </PersistGate>

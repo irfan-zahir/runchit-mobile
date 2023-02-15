@@ -1,11 +1,11 @@
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { AuthenticatedParamList, AuthenticatedScreenProps } from '@typings/navigation.d'
 import React from 'react'
 import { createDrawerNavigator, DrawerNavigationOptions } from "@react-navigation/drawer"
 
 import { AuthContext } from '@providers/AuthProvider'
 
-import { Drawer } from '@components/drawer/Drawer'
+// import { Drawer } from '@components/drawer/Drawer'
 import { initializeAxios } from '@api/index'
 import { getCurrentUserData } from '@api/user.api'
 
@@ -20,6 +20,10 @@ import { selectUserStore } from '@rtk/selectors/store.selector'
 import { fetchStores } from '@rtk/slices/store.slice'
 import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { TabBar } from '@components/tabBar/TabBar'
+import { Header } from '@components/header/Header'
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
+import { Div } from 'react-native-magnus'
+import { Sidebar } from '@components/sidebar/Sidebar'
 
 const Navigation = () => {
     const { currentStore } = selector(selectUserStore)
@@ -30,30 +34,30 @@ const Navigation = () => {
         ? <Login />
         : (
             <NavigationContainer>
-                <RootNavigator />
+                {/* <SideBarContainer> */}
+                    <RootNavigator />
+                {/* </SideBarContainer> */}
             </NavigationContainer>
         )
 }
 
+const SideBarStack = createDrawerNavigator()
 const AuthStack = createBottomTabNavigator<AuthenticatedParamList>()
 
 const RootNavigator = () => {
 
-
-    const getScreenOptions: (props: AuthenticatedScreenProps<any>) => BottomTabNavigationOptions = ({ route }) => {
-        const headerShown = route.name !== "Profile"
+    const getScreenOptions: (props: AuthenticatedScreenProps<keyof AuthenticatedParamList>) => BottomTabNavigationOptions = ({ route }) => {
+        const headerShown = route.name !== "Profile" && route.name !== "Registration"
         return {
             headerShown,
             tabBarHideOnKeyboard: true,
-            // sceneContainerStyle: {
-            //     paddingTop: route.name === "Profile" || route.name === "Settings" ? 0 : 8,
-            //     paddingHorizontal: route.name === "Profile" || route.name === "Settings" ? 0 : 16
-            // }
+            header: (props)=> <Header {...props} />
         }
     }
 
     const [loading, setLoading] = React.useState(true)
     const [initialRouteName, setInitialRouteName] = React.useState<keyof AuthenticatedParamList>("Home")
+    const [previousScreen, setPreviousScreen] = React.useState(1)
 
     const dispatch = appDispatch()
 
@@ -74,22 +78,44 @@ const RootNavigator = () => {
         return () => { }
     }, [])
 
-
     return (
         loading ? <ActivityIndicator />
-            : <AuthStack.Navigator
-                initialRouteName={initialRouteName}
-                screenOptions={getScreenOptions}
-                tabBar={(props) => <TabBar {...props} />}
-            // drawerContent={(props) => <Drawer {...props} />}
-            >
-                <AuthStack.Screen name="Profile" component={Profile} />
-                <AuthStack.Screen name="Home" component={Home} />
-                <AuthStack.Screen name="Inventory" component={Inventory} />
-                <AuthStack.Screen name="Sales" component={Sales} />
-                <AuthStack.Screen name="Settings" component={Configurations} />
-                <AuthStack.Screen name="Registration" component={Registration} />
-            </AuthStack.Navigator>
+            : (
+                <SideBarStack.Navigator
+                    drawerContent={(props)=> <Sidebar previousScreen={previousScreen} {...props} />}
+                    screenOptions={{
+                        headerShown: false, 
+                        drawerType: "slide", 
+                        drawerPosition: "right",
+                        drawerStyle: {width: 75}
+                    }}>
+                    <SideBarStack.Screen name='authenticated'>
+                        {(props)=> (
+                            <SafeAreaInsetsContext.Consumer>
+                                {insets => (
+                                    <Div bg={'base'} flex={1} pt={insets?.top}>                                        
+                                        <AuthStack.Navigator
+                                            initialRouteName={initialRouteName}
+                                            screenListeners={{
+                                                //@ts-ignore
+                                                state: ({data})=> data.state.index !== 0 && setPreviousScreen(data?.state.index)
+                                            }}
+                                            screenOptions={getScreenOptions}
+                                            tabBar={(props) => <TabBar {...props} />}>
+                                                <AuthStack.Screen name="Profile" component={Profile} />
+                                                <AuthStack.Screen name="Home" component={Home} />
+                                                <AuthStack.Screen name="Inventory" component={Inventory} />
+                                                <AuthStack.Screen name="Sales" component={Sales} />
+                                                <AuthStack.Screen name="Settings" component={Configurations} />
+                                                <AuthStack.Screen name="Registration" component={Registration} />
+                                        </AuthStack.Navigator>
+                                    </Div>
+                                )}
+                            </SafeAreaInsetsContext.Consumer> 
+                        )}
+                    </SideBarStack.Screen>
+                </SideBarStack.Navigator>
+            )
     )
 }
 
