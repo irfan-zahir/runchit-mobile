@@ -35,7 +35,7 @@ const Navigation = () => {
         : (
             <NavigationContainer>
                 {/* <SideBarContainer> */}
-                    <RootNavigator />
+                <RootNavigator />
                 {/* </SideBarContainer> */}
             </NavigationContainer>
         )
@@ -51,7 +51,7 @@ const RootNavigator = () => {
         return {
             headerShown,
             tabBarHideOnKeyboard: true,
-            header: (props)=> <Header {...props} />
+            header: (props) => <Header {...props} />
         }
     }
 
@@ -82,36 +82,30 @@ const RootNavigator = () => {
         loading ? <ActivityIndicator />
             : (
                 <SideBarStack.Navigator
-                    drawerContent={(props)=> <Sidebar previousScreen={previousScreen} {...props} />}
+                    drawerContent={(props) => <Sidebar previousScreen={previousScreen} {...props} />}
                     screenOptions={{
-                        headerShown: false, 
-                        drawerType: "slide", 
+                        headerShown: false,
+                        drawerType: "slide",
                         drawerPosition: "right",
-                        drawerStyle: {width: 75}
+                        drawerStyle: { width: 75 }
                     }}>
                     <SideBarStack.Screen name='authenticated'>
-                        {(props)=> (
-                            <SafeAreaInsetsContext.Consumer>
-                                {insets => (
-                                    <Div bg={'base'} flex={1} pt={insets?.top}>                                        
-                                        <AuthStack.Navigator
-                                            initialRouteName={initialRouteName}
-                                            screenListeners={{
-                                                //@ts-ignore
-                                                state: ({data})=> data.state.index !== 0 && setPreviousScreen(data?.state.index)
-                                            }}
-                                            screenOptions={getScreenOptions}
-                                            tabBar={(props) => <TabBar {...props} />}>
-                                                <AuthStack.Screen name="Profile" component={Profile} />
-                                                <AuthStack.Screen name="Home" component={Home} />
-                                                <AuthStack.Screen name="Inventory" component={Inventory} />
-                                                <AuthStack.Screen name="Sales" component={Sales} />
-                                                <AuthStack.Screen name="Settings" component={Configurations} />
-                                                <AuthStack.Screen name="Registration" component={Registration} />
-                                        </AuthStack.Navigator>
-                                    </Div>
-                                )}
-                            </SafeAreaInsetsContext.Consumer> 
+                        {(props) => (
+                            <AuthStack.Navigator
+                                initialRouteName={initialRouteName}
+                                screenListeners={{
+                                    //@ts-ignore
+                                    state: ({ data }) => data.state.index !== 0 && setPreviousScreen(data?.state.index)
+                                }}
+                                screenOptions={getScreenOptions}
+                                tabBar={(props) => <TabBar {...props} />}>
+                                <AuthStack.Screen name="Profile" component={Profile} />
+                                <AuthStack.Screen name="Home" component={Home} />
+                                <AuthStack.Screen name="Inventory" component={Inventory} />
+                                <AuthStack.Screen name="Sales" component={Sales} />
+                                <AuthStack.Screen name="Settings" component={Configurations} />
+                                <AuthStack.Screen name="Registration" component={Registration} />
+                            </AuthStack.Navigator>
                         )}
                     </SideBarStack.Screen>
                 </SideBarStack.Navigator>

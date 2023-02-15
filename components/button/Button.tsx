@@ -1,4 +1,3 @@
-import { Typography } from '@components/typography'
 import React from 'react'
 import { Button as RNMButton, ButtonProps as RNMButtonProps } from "react-native-magnus"
 import { IButtonProps } from "./button.d"

@@ -1,5 +1,4 @@
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import { ConfigList, MembersConfig, RolesConfig, SearchableHeader } from '@screens/authenticated/configurations'
 import { ConfigurationsParamList } from '@typings/navigation'

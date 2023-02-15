@@ -19,7 +19,7 @@ export type AuthenticatedParamList = {
 export type AuthenticatedScreenProps<Screen extends keyof AuthenticatedParamList> = BottomTabScreenProps<AuthenticatedParamList, Screen>
 
 export type ConfigurationsParamList = {
-    "Configurations List": undefined;
+    "ConfigList": undefined;
     Roles: undefined;
     Members: undefined;
 }

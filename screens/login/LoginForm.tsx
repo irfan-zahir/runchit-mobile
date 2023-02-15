@@ -1,5 +1,5 @@
 import React from 'react'
-import { Div, Text, Modal } from "react-native-magnus"
+import { Div, Modal } from "react-native-magnus"
 
 import { app } from "@configs/firebase.config"
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha"

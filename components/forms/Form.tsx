@@ -1,7 +1,7 @@
 import React from 'react'
 import { Div } from "react-native-magnus"
 import { useForm as useReactHookForm, FieldValues, FormProvider } from "react-hook-form"
-import { IFormProps, IFormRef, PropsWithStandardRef } from './forms.d'
+import { IFormRef, PropsWithStandardRef } from './forms.d'
 
 export const useForm: (<T extends FieldValues>() => React.RefObject<IFormRef<T>>) = () => React.createRef()
 

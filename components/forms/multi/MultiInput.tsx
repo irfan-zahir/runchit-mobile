@@ -3,7 +3,7 @@ import { ICommonFormProps } from '../forms.d'
 
 import { Div, DivProps as RNMDivProps, Tag, Icon } from "react-native-magnus"
 import { Typography } from '@components/typography'
-import { useFieldArray, useForm, useFormContext } from "react-hook-form"
+import { useFormContext } from "react-hook-form"
 import { Button } from '@components/button'
 
 interface IMultiInputWrapperProp extends Omit<RNMDivProps, "children">, ICommonFormProps {
@@ -15,22 +15,22 @@ export const MultiInputWrapper: React.FC<IMultiInputWrapperProp> = ({
     children, name: groupedName, label, appendText, control, ...containerProps
 }) => {
 
-    const { 
-        setValue: setParentValue, 
-        formState, 
-        watch, 
-        resetField, 
-        setFocus, 
-        trigger, 
-        setError 
+    const {
+        setValue: setParentValue,
+        formState,
+        watch,
+        resetField,
+        setFocus,
+        trigger,
+        setError
     } = useFormContext()
 
     const [fields, setFields] = React.useState<Record<string, any>[]>([])
     const [ableAddMore, setAbleAddMore] = React.useState(false)
 
-    const validateFields = async ()=>{
+    const validateFields = async () => {
         const names = React.Children.map(children, child => `${groupedName}.${fields.length}.${child.props.name}`)
-        const validation = await Promise.all(names.map(async(name)=> {
+        const validation = await Promise.all(names.map(async (name) => {
             const val = await trigger(name)
             // if(!val) setError(name, {type: "required"})
             return val
@@ -41,7 +41,7 @@ export const MultiInputWrapper: React.FC<IMultiInputWrapperProp> = ({
     const appendField = async () => {
         const newFields = [...watch(groupedName)]
         const validated = await validateFields()
-        if(validated) setFields(newFields)
+        if (validated) setFields(newFields)
     }
 
 
@@ -60,33 +60,33 @@ export const MultiInputWrapper: React.FC<IMultiInputWrapperProp> = ({
     }
 
     React.useEffect(() => {
-        if(fields.length > 0) resetMultiInput()
-    
+        if (fields.length > 0) resetMultiInput()
+
         return () => { }
     }, [fields])
-    
+
 
     React.useEffect(() => {
-        if(formState.isSubmitSuccessful) setFields([])
-    
+        if (formState.isSubmitSuccessful) setFields([])
+
         return () => { }
     }, [formState.isSubmitSuccessful])
 
     React.useEffect(() => {
-        if(watch(groupedName)){        
-            const currentGroup = {...watch(groupedName)[fields.length]}
-            const isIncomplete = Object.values(currentGroup).findIndex(val=> val === undefined || val === "") > -1
-            
-            if(!ableAddMore && !isIncomplete) setAbleAddMore(true)
-            if(ableAddMore && isIncomplete) setAbleAddMore(false)
+        if (watch(groupedName)) {
+            const currentGroup = { ...watch(groupedName)[fields.length] }
+            const isIncomplete = Object.values(currentGroup).findIndex(val => val === undefined || val === "") > -1
+
+            if (!ableAddMore && !isIncomplete) setAbleAddMore(true)
+            if (ableAddMore && isIncomplete) setAbleAddMore(false)
         }
-    
-      return () => {
-        
-      }
+
+        return () => {
+
+        }
     }, [watch()])
-    
-    
+
+
 
     return (
         <Div {...containerProps}>
@@ -98,7 +98,7 @@ export const MultiInputWrapper: React.FC<IMultiInputWrapperProp> = ({
             }
 
             <Div alignSelf='stretch' flexDir='row' flexWrap='wrap'>
-                 {  fields.length > 0 &&
+                {fields.length > 0 &&
                     fields.map((field, i) => {
                         const firstInput = children[0].props.name
                         const index = Object.keys(field).findIndex(name => firstInput === name)
@@ -127,12 +127,12 @@ export const MultiInputWrapper: React.FC<IMultiInputWrapperProp> = ({
                         return React.cloneElement(child, { ...props, control, name })
                     })
             }
-            <Button 
-                prefix={<Icon 
-                    name="pluscircleo" 
-                    mr="sm" 
+            <Button
+                prefix={<Icon
+                    name="pluscircleo"
+                    mr="sm"
                     color={ableAddMore ? "primary" : "grey"}
-                    fontSize="2xl"  />}
+                    fontSize="2xl" />}
                 bg={ableAddMore ? "primary" : "grey"}
                 variant='bare'
                 onPress={() => ableAddMore && appendField()}>

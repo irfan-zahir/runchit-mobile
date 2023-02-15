@@ -2,7 +2,7 @@ import { Typography } from '@components/typography'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import React from 'react'
 import { Pressable } from 'react-native'
-import { Div, DivProps, Icon, IconProps } from 'react-native-magnus'
+import { Div, DivProps, Icon } from 'react-native-magnus'
 
 export const TabBar: React.FC<BottomTabBarProps> = (props) => {
     const { insets, state, navigation } = props
@@ -19,18 +19,18 @@ export const TabBar: React.FC<BottomTabBarProps> = (props) => {
         return undefined
     }
 
-    if(state.routeNames[state.index] === "Profile" 
-    || state.routeNames[state.index] === "Register") return null
+    if (state.routeNames[state.index] === "Profile"
+        || state.routeNames[state.index] === "Register") return null
 
     return (
-        <Div 
-        flexDir='row'
-        alignItems='center' 
-        justifyContent='center' 
-        bg='base' 
-        rounded="circle" 
-        shadow="sm" 
-        py={8} mx={16} mb={insets.bottom}>
+        <Div
+            flexDir='row'
+            alignItems='center'
+            justifyContent='center'
+            bg='base'
+            rounded="circle"
+            shadow="sm"
+            py={8} mx={16} mb={insets.bottom}>
             {
                 drawerRoutes.map((route, i) => {
                     const isActive = activeIndex === i

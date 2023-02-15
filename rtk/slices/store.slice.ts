@@ -1,7 +1,6 @@
 import { getStoresAPI } from "@api/store.api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { IModelRunchit } from "@typings/models.d";
-import axios from "axios";
 
 interface IInitialState {
     currentStore: IModelRunchit | null
