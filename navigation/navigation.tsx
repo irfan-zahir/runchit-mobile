@@ -18,6 +18,8 @@ import { setCurrentUser } from '@rtk/slices/currentUser.slice'
 import { ActivityIndicator } from "react-native"
 import { selectUserStore } from '@rtk/selectors/store.selector'
 import { fetchStores } from '@rtk/slices/store.slice'
+import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { TabBar } from '@components/tabBar/TabBar'
 
 const Navigation = () => {
     const { currentStore } = selector(selectUserStore)
@@ -33,19 +35,20 @@ const Navigation = () => {
         )
 }
 
-const AuthStack = createDrawerNavigator<AuthenticatedParamList>()
+const AuthStack = createBottomTabNavigator<AuthenticatedParamList>()
 
 const RootNavigator = () => {
 
 
-    const getScreenOptions: (props: AuthenticatedScreenProps<any>) => DrawerNavigationOptions = ({ route }) => {
+    const getScreenOptions: (props: AuthenticatedScreenProps<any>) => BottomTabNavigationOptions = ({ route }) => {
+        const headerShown = route.name !== "Profile"
         return {
-            headerShown: false,
-            drawerType: "front",
-            sceneContainerStyle: {
-                paddingTop: route.name === "Profile" || route.name === "Configurations" ? 0 : 8,
-                paddingHorizontal: route.name === "Profile" || route.name === "Configurations" ? 0 : 16
-            }
+            headerShown,
+            tabBarHideOnKeyboard: true,
+            // sceneContainerStyle: {
+            //     paddingTop: route.name === "Profile" || route.name === "Settings" ? 0 : 8,
+            //     paddingHorizontal: route.name === "Profile" || route.name === "Settings" ? 0 : 16
+            // }
         }
     }
 
@@ -77,14 +80,15 @@ const RootNavigator = () => {
             : <AuthStack.Navigator
                 initialRouteName={initialRouteName}
                 screenOptions={getScreenOptions}
-
-                drawerContent={(props) => <Drawer {...props} />}>
-                <AuthStack.Screen name='Profile' component={Profile} options={{ swipeEnabled: false }} />
-                <AuthStack.Screen name='Home' component={Home} />
-                <AuthStack.Screen name='Inventory' component={Inventory} />
-                <AuthStack.Screen name='Sales' component={Sales} />
-                <AuthStack.Screen name='Configurations' component={Configurations} />
-                <AuthStack.Screen name='Registration' component={Registration} options={{ swipeEnabled: false }} />
+                tabBar={(props) => <TabBar {...props} />}
+            // drawerContent={(props) => <Drawer {...props} />}
+            >
+                <AuthStack.Screen name="Profile" component={Profile} />
+                <AuthStack.Screen name="Home" component={Home} />
+                <AuthStack.Screen name="Inventory" component={Inventory} />
+                <AuthStack.Screen name="Sales" component={Sales} />
+                <AuthStack.Screen name="Settings" component={Configurations} />
+                <AuthStack.Screen name="Registration" component={Registration} />
             </AuthStack.Navigator>
     )
 }

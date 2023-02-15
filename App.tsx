@@ -20,7 +20,7 @@ export default function App() {
       <SafeAreaProvider>
         <ProvidersWrapper>
           <Navigation />
-          <StatusBar />
+          <StatusBar hidden />
         </ProvidersWrapper>
       </SafeAreaProvider>
     );

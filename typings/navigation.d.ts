@@ -7,18 +7,18 @@ interface IHomeProps {
 }
 
 export type AuthenticatedParamList = {
-    Profile: { previousScreen: keyof AuthenticatedParamList };
-    Home: undefined;
-    Sales: undefined;
-    Inventory: undefined;
-    Configurations: undefined;
-    Registration: undefined;
+    "Profile": { previousScreen: keyof AuthenticatedParamList };
+    "Home": undefined;
+    "Sales": undefined;
+    "Inventory": undefined;
+    "Settings": undefined;
+    "Registration": undefined;
 }
 
 export type AuthenticatedScreenProps<Screen extends keyof AuthenticatedParamList> = DrawerScreenProps<AuthenticatedParamList, Screen>
 
 export type ConfigurationsParamList = {
-    "ConfigList": undefined;
+    "Configurations List": undefined;
     Roles: undefined;
     Members: undefined;
 }

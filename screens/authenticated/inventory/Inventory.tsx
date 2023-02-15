@@ -9,6 +9,7 @@ import { appDispatch, selector } from '@rtk/store'
 import { selectProducts } from '@rtk/selectors/products.selector'
 import { fetchProducts } from '@rtk/slices/products.slice'
 import { RefreshControl, ScrollView } from 'react-native'
+import { ProductListItem } from './ProductListItem'
 
 export const Inventory = (props: AuthenticatedScreenProps<"Inventory">) => {
     const dispatch = appDispatch()
@@ -22,25 +23,15 @@ export const Inventory = (props: AuthenticatedScreenProps<"Inventory">) => {
 
 
     return (
-        <Div flex={1}>
+        <Div flex={1} px={16}>
             <ScrollView
                 refreshControl={
                     <RefreshControl
                         refreshing={loading}
                         onRefresh={() => dispatch(fetchProducts())} />
                 }>
-                <Div>
-                    <Typography>Inventory</Typography>
-                    <Div flex={1}>
-                        {
-                            !loading &&
-                            products.map((product, i) => {
-                                return (
-                                    <Typography key={i}>{product.name}</Typography>
-                                )
-                            })
-                        }
-                    </Div>
+                <Div flex={1}>
+                    {!loading && products.map((product, i) => <ProductListItem product={product} key={i} />)}
                 </Div>
             </ScrollView>
 

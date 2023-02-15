@@ -14,8 +14,7 @@ export const ProvidersWrapper: React.FC<React.PropsWithChildren> = ({ children }
                 <ThemeProvider>
                     <AuthProvider>
                         <SafeAreaInsetsContext.Consumer>
-
-                            {insets => <Div bg='primary' flex={1} pt={insets?.top}>{children}</Div>}
+                            {insets => <Div bg='transparent' flex={1} pt={insets?.top}>{children}</Div>}
                         </SafeAreaInsetsContext.Consumer>
                     </AuthProvider>
                 </ThemeProvider>
