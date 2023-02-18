@@ -8,7 +8,7 @@ type IModalRef = {
 }
 
 interface IModalProps extends Omit<RNMModalProps, "ref"> {
-    modalRef: IModalRef;
+    modalRef?: IModalRef;
     onOpen?: () => void;
     onClose?: () => void;
     maxHeight?: string | number;
@@ -30,12 +30,12 @@ export const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
     ...props
 }) => {
 
-    const close = () => modalRef.set(false)
+    const close = () => modalRef && modalRef.set(false)
     const [modalHeight, setModalHeight] = React.useState(height)
 
     const backdropPress = () => {
         onBackdropPress && onBackdropPress()
-        if(closeOnPressBackdrop){
+        if (closeOnPressBackdrop) {
             onClose && onClose()
             close()
         }
@@ -53,7 +53,7 @@ export const Modal: React.FC<React.PropsWithChildren<IModalProps>> = ({
     return (
         <RNMModal
             h={modalHeight}
-            isVisible={modalRef.isVisible}
+            isVisible={modalRef?.isVisible}
             swipeDirection={swipeDownToClose ? "down" : undefined}
             onBackdropPress={backdropPress}
             onSwipeComplete={onSwipeComplete}

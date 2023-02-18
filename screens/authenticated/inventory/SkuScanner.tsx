@@ -3,12 +3,14 @@ import React from 'react'
 import { Div } from 'react-native-magnus'
 import { BarCodeScanner, BarCodeScannedCallback } from 'expo-barcode-scanner'
 import { Button } from '@components/button'
+import Animated, { SlideInRight, SlideOutRight } from 'react-native-reanimated'
 
 interface ISkuScannerProps {
-    onScanned: (scannedBarcode: string) => void
+    onScanned: (scannedBarcode: string) => void;
+    onCancelScan: () => void
 }
 
-export const SkuScanner = ({ onScanned }: ISkuScannerProps) => {
+export const SkuScanner = ({ onScanned, onCancelScan }: ISkuScannerProps) => {
 
     const [isLoading, setLoading] = React.useState(true)
     const { permissions: { camera } } = usePermissions()
@@ -38,7 +40,7 @@ export const SkuScanner = ({ onScanned }: ISkuScannerProps) => {
     const handleBarcodeScanned: BarCodeScannedCallback = ({ data }) => onScanned(data)
 
     return (
-        <Div h={45} w="100%" bg="primary">
+        <Div h={45} w="100%">
             {
                 !isLoading && !hasPermission &&
                 <Div flex={1} justifyContent="center">
@@ -49,7 +51,13 @@ export const SkuScanner = ({ onScanned }: ISkuScannerProps) => {
             }
             {
                 hasPermission &&
-                <BarCodeScanner style={{ flex: 1 }} onBarCodeScanned={handleBarcodeScanned} />
+                <Div flexDir='row' flex={1}>
+                    <BarCodeScanner style={{ flex: 1, marginEnd: 8 }} onBarCodeScanned={handleBarcodeScanned} />
+
+                    <Animated.View entering={SlideInRight}>
+                        <Button h="100%" ml={4} onPress={() => onCancelScan()}>Cancel</Button>
+                    </Animated.View>
+                </Div>
             }
         </Div>
     )

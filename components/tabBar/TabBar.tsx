@@ -20,7 +20,7 @@ export const TabBar: React.FC<BottomTabBarProps> = (props) => {
     }
 
     if (state.routeNames[state.index] === "Profile"
-        || state.routeNames[state.index] === "Register") return null
+        || state.routeNames[state.index] === "Registration") return null
 
     return (
         <Div

@@ -5,10 +5,10 @@ interface IProductCreateBody {
     product: {
         name: string;
         sku: string;
-        price: string;
-        attributes: { name: string; value: string }[];
+        purchase: string;
+        sellPrice: string;
         quantity: number;
-        supplier: string;
+        unit: string;
     }
 }
 

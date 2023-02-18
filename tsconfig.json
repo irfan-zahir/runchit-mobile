@@ -15,6 +15,7 @@
       "@svgs/*":["svgs/*"],
       "@api/*":["api/*"],
       "@configs/*":["configs/*"],
+      "@constants/*":["constants/*"],
     },
   }
 }

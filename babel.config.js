@@ -18,6 +18,7 @@ module.exports = function (api) {
             '@svgs': './svgs',
             '@api': './api',
             '@configs': './configs',
+            '@constants': './constants',
           }
         }
       ],

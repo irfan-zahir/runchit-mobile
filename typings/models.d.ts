@@ -1,4 +1,5 @@
 
+
 /**
  * Model User
  * 
@@ -8,8 +9,7 @@ export type IModelUser = {
     uid: string | null
     phone: string
     subscription: string | null
-    fullName: string;
-    memberOf: Array<unknown>
+    fullName: string
 }
 
 /**
@@ -19,9 +19,9 @@ export type IModelUser = {
 export type IModelRunchit = {
     id: string
     name: string
-    address: string | null
     duitnowqr: string | null
-    createdAt: Date
+    address: string | null
+    createdAt: string
 }
 
 /**
@@ -43,15 +43,6 @@ export type IModelStoreMember = {
     id: string
     storeId: string
     memberId: string | null
-    roles: Array<unknown>
-}
-
-/**
- * Model Inventory
- * 
- */
-export type IModelInventory = {
-    id: string
 }
 
 /**
@@ -61,11 +52,37 @@ export type IModelInventory = {
 export type IModelProduct = {
     id: string
     name: string
-    price: number
-    sku: string
+    purchase: number
+    sellPrice: number
+    sku: string | null
+    quantityUnit: string | null
+    shelfQuantity: Prisma.Decimal
+    storageQuantity: Prisma.Decimal
     storeId: string
-    supplierId: number
-    categoryId: number
+    supplierId: string | null
+    categoryId: string | null
+}
+
+/**
+ * Model ProductInventory
+ * 
+ */
+export type IModelProductInventory = {
+    id: string
+    shelf: number
+    storage: number
+    location: string
+    productId: string
+}
+
+/**
+ * Model ProductImages
+ * 
+ */
+export type IModelProductImages = {
+    id: string
+    url: string
+    productId: string
 }
 
 /**
@@ -73,7 +90,7 @@ export type IModelProduct = {
  * 
  */
 export type IModelProductAttribute = {
-    id: number
+    id: string
     name: string
     value: string
     productId: string
@@ -84,7 +101,7 @@ export type IModelProductAttribute = {
  * 
  */
 export type IModelProductCategory = {
-    id: number
+    id: string
     name: string
 }
 
@@ -93,7 +110,8 @@ export type IModelProductCategory = {
  * 
  */
 export type IModelSupplier = {
-    id: number
+    id: string
     name: string
     contact: string
 }
+

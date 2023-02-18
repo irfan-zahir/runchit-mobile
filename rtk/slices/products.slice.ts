@@ -21,7 +21,12 @@ const storeSlice = createSlice({
         setProducts(action, { payload }: { payload: IModelProduct[] | null }) {
             action.loading = false
             action.products = payload ?? []
-        }
+        },
+        addProduct(action, { payload }: { payload: IModelProduct }) {
+            action.loading = false
+            const productStored = [...action.products, payload]
+            action.products = productStored
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchProducts.pending, state => {
@@ -37,6 +42,6 @@ const storeSlice = createSlice({
     }
 })
 
-export const { setProducts } = storeSlice.actions;
+export const { setProducts, addProduct } = storeSlice.actions;
 
 export default storeSlice.reducer;
