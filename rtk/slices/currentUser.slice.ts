@@ -1,6 +1,6 @@
 import { getUserAPI } from "@api/users.api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { IUserModel } from "@typings/models.d";
+import { IStoreRoleModel, IUserModel } from "@typings/models.d";
 
 interface IInitialState {
     userData: IUserModel | null
@@ -12,7 +12,7 @@ const initialState: IInitialState = {
     loading: true
 }
 
-export const fetchProducts = createAsyncThunk("users/fetchUser", async () => await getUserAPI())
+export const fetchUser = createAsyncThunk("users/fetchUser", async () => await getUserAPI())
 
 const usersSlice = createSlice({
     name: "currentUser",
@@ -25,22 +25,27 @@ const usersSlice = createSlice({
         removeCurrentUser(action, { payload }) {
             action.loading = false
             action.userData = null
+        },
+        setCurrentRole: (action, { payload }: { payload: IStoreRoleModel }) => {
+            action.userData = action.userData && { ...action.userData, currentRole: payload }
+            action.loading = false
+
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchProducts.pending, state => {
+        builder.addCase(fetchUser.pending, state => {
             state.loading = true
         })
-        builder.addCase(fetchProducts.fulfilled, (state, { payload }) => {
+        builder.addCase(fetchUser.fulfilled, (state, { payload }) => {
             state.userData = payload.currentUser ?? null
             state.loading = false
         })
-        builder.addCase(fetchProducts.rejected, state => {
+        builder.addCase(fetchUser.rejected, state => {
             state.loading = false
         })
     }
 })
 
-export const { setCurrentUser } = usersSlice.actions;
+export const { setCurrentUser, setCurrentRole } = usersSlice.actions;
 
 export default usersSlice.reducer;

@@ -3,8 +3,9 @@ export type IUserModel = {
     id: string
     phone: string
     fullName: string
-    roles?: IStoreRoleModel[]
     createdAt: Date
+    currentRole?: IStoreRoleModel
+    storeMember?: IStoreMemberModel[]
 }
 
 /**
@@ -21,6 +22,17 @@ export type IBankDetailsModel = {
 }
 
 /**
+ * Model StoreMember
+ * 
+ */
+export type IStoreMemberModel = {
+    id: string
+    storeId: string
+    memberId: string | null
+    roles?: IStoreRoleModel[] | null
+}
+
+/**
  * Model Store
  * 
  */
@@ -30,6 +42,7 @@ export type IStoreModel = {
     address?: string | null
     createdAt: string
     bankId?: string | null
+    roles?: IStoreRoleModel[]
 }
 
 /**
@@ -50,11 +63,10 @@ export type IStoreRoleModel = {
 export type IProductModel = {
     id: string
     name: string
-    purchase: number
-    sellPrice: number
-    sku: string | null
-    quantityUnit: string | null
-    shelfQuantity: Prisma.Decimal
-    storageQuantity: Prisma.Decimal
+    purchase?: number | null
+    unitPrice?: number | null
+    sku?: string | null
+    totalQuantity?: Prisma.Decimal | null
+    shelfQuantity?: Prisma.Decimal | null
     storeId: string
 }

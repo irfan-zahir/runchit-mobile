@@ -1,11 +1,11 @@
 
-import { DeepPartial, FieldValues, UseFormReset, UseFormSetValue, FormProvider, Control, UseControllerProps, ValidationMode } from "react-hook-form"
+import { DeepPartial, FieldValues, UseFormReset, UseFormSetValue, FormProvider, Control, UseControllerProps, ValidationMode, UseFormWatch } from "react-hook-form"
 
 export interface IFormRef<T extends FieldValues> {
     showAlert?: any;
     submit?: (e?: React.BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>,
     reset: UseFormReset<T>
-    // setFocus: (string) => void
+    getFormValues: UseFormWatch<T>
     setValue: UseFormSetValue<T>
 }
 

@@ -1,3 +1,4 @@
 import { RootState } from "@rtk/store"
 
-export const selectCurrentUser = (state: RootState) => state.currentUsers
+export const selectUserState = (state: RootState) => state.currentUsers
+export const selectCurrentRole = (state: RootState) => state.currentUsers.userData?.currentRole

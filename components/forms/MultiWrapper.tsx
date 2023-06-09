@@ -1,12 +1,13 @@
 import React from 'react'
 import { Control, FieldValues, useFormContext } from 'react-hook-form';
-import { Container, Typography } from '..';
+import { Container } from '../container';
+import { Typography } from '../typography';
 import { Button, Div, Icon, Tag, DivProps } from 'react-native-magnus';
 
 export interface IMultiWrapperRef<T extends FieldValues> {
     addMore: () => void;
     removeField: (i: number) => void;
-    fields: T[]
+    fields: () => T[]
 }
 
 interface IMultiWrapperProps extends DivProps {

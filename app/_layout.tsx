@@ -15,7 +15,7 @@ import {
 } from '@expo-google-fonts/fira-sans';
 import { StatusBar } from 'react-native';
 import { Container } from '@components/container';
-
+import * as ScreenOrientation from "expo-screen-orientation"
 
 export const unstable_settings = {
     initialRouteName: "landing",
@@ -45,6 +45,7 @@ const RunchitLayout = () => {
 
     // const { top: topInset } = useSafeAreaInsets()
     StatusBar.setBarStyle("dark-content")
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
 
     return (
         <ProvidersWrapper>

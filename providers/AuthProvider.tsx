@@ -7,7 +7,9 @@ import { useNavigation, useRouter, useSegments } from 'expo-router';
 import { landingAuthentication } from '@api/users.api';
 import { initializeAxios } from '@api/index';
 import { setCurrentUser } from '@rtk/slices/currentUser.slice';
-import { selectCurrentUser } from '@rtk/selectors/currentUser.selector';
+import { selectCurrentRole, selectUserState } from '@rtk/selectors/currentUser.selector';
+import { fetchStores } from '@rtk/slices/stores.slice';
+import { selectCurrentStore } from '@rtk/selectors/stores.selector';
 
 export const AuthContext = React.createContext<IAuthProviderValue>({ authUser: null, loading: true })
 
@@ -20,6 +22,8 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 
     const router = useRouter()
     const navigation = useNavigation()
+    const { userData } = selector(selectUserState)
+    const selectedStore = selector(selectCurrentStore)
 
     // This hook will protect the route access based on user authentication.
     function useProtectedRoute(user: IUserData | null) {
@@ -32,8 +36,11 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
                 .then(dbUser => {
                     if (dbUser.message === "new-user" && !dbUser.currentUser) router.push("(authentication)/registration")
                     if (dbUser.currentUser) {
+                        const currentRole = userData?.currentRole
+                            ?? userData?.storeMember?.filter(sm => sm.storeId === selectedStore?.id)[0].roles![0]
                         router.replace("(authorized)/app/dashboard")
-                        dispatch(setCurrentUser(dbUser.currentUser))
+                        dispatch(setCurrentUser({ ...dbUser.currentUser, currentRole }))
+                        dispatch(fetchStores())
                     }
                     setLoading(false)
                 })
@@ -59,12 +66,14 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
             } else if (user) {
                 // Redirect away from the sign-in page.
                 // router.replace("(authorized)/home");
-                initializeAxios(user.accessToken!)
+                const currentRole = userData?.currentRole
+                    ?? userData?.storeMember?.filter(sm => sm.storeId === selectedStore?.id)[0].roles![0]
+
+                initializeAxios(user.accessToken!, currentRole?.id)
 
                 // if (isAuthorized) verifyUserAccess()
 
-                if (!isAuthorized)
-                    checkUserRegistered()
+                if (!isAuthorized) checkUserRegistered()
             }
 
             // setLoading(false)

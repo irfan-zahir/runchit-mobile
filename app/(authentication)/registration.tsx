@@ -52,7 +52,7 @@ function Registration() {
 
 
     const pagerCardStyle = {
-        m: 16, flex: 1, px: 8, py: 24, borderWidth: 1, borderColor: 'gray400', bg: 'white', rounded: "lg", shadow: "md",
+        m: 16, flex: 1, px: 8, py: 24, rounded: "lg",
     }
 
     return (

@@ -7,7 +7,7 @@ import { Typography } from '../typography'
 import capitalize from '@hooks/capitalize'
 import Animated, { FadeIn } from 'react-native-reanimated'
 import { selector } from '@rtk/store'
-import { selectCurrentUser } from '@rtk/selectors/currentUser.selector'
+import { selectUserState } from '@rtk/selectors/currentUser.selector'
 
 interface ITabBarProps {
     routes: string[],
@@ -17,7 +17,7 @@ interface ITabBarProps {
 
 export const TabBar: React.FC<ITabBarProps> = ({ inset, routes, activeIndex }) => {
     const navigation = useNavigation()
-    const { userData } = selector(selectCurrentUser)
+    const { userData } = selector(selectUserState)
 
     const getNavigatorIcon = (route: string, isActive: boolean) => {
         const style = { fontSize: isActive ? 24 : 32, color: isActive ? "white" : "indigo600" }
