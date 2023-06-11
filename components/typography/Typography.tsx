@@ -20,5 +20,6 @@ export const Typography: React.FC<React.PropsWithChildren<ITypographyProps>> = (
         case "label": variantProps = { fontSize: 15, fontFamily: "fira_400" }; break;
         default: variantProps = { fontSize: 15, fontFamily: "fira_400" }; break;
     }
+
     return <Text {...variantProps} {...props} />
 }

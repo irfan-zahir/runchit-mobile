@@ -6,46 +6,27 @@ import { KeyboardAvoidingView, Pressable, ScrollView, Touchable, View } from 're
 import { Input } from '@components/forms/input'
 import { Form, useForm } from '@components/forms'
 import PagerView from 'react-native-pager-view'
-import { useNavigation } from 'expo-router'
+import { Link, useRootNavigation } from 'expo-router'
 import { Ticker } from '@components/ticker'
-
-const SKUInput: React.FC = () => {
-
-    const [inputFocus, setInputFocus] = React.useState(false)
-
-    const onPress = () => console.log("open qr scanner")
-
-    return (
-        <Input
-            name='sku'
-            placeholder='Product SKU'
-            suffix={
-                <Pressable onPress={onPress}>
-                    <Div flexDir='row' alignItems='center'>
-                        {inputFocus &&
-                            <Typography variant='s2' mr={8} color='gray400'>Scan QR</Typography>
-                        }
-                        <Icon fontSize={20} name='ios-qr-code' fontFamily='Ionicons' />
-                    </Div>
-                </Pressable>}
-        />
-    )
-}
+import { createProductAPI } from '@api/product.api'
+import { appDispatch } from '@rtk/store'
 
 interface IFormProductFields {
-    name: string;
-    sku?: string;
-    unitPrice?: number;
-    purchase?: number;
-    quantity?: number;
-    storeId: string;
+    name: string
+    purchase?: number
+    unitPrice?: number
+    sku?: string
+    storageQuantity?: number
+    shelfQuantity?: number
+    storeId: string
 }
 
 function CreateProduct() {
+    const dispatch = appDispatch()
     const formRef = useForm<IFormProductFields>()
-    const onSubmit = (data: IFormProductFields) => {
 
-    }
+    const onSubmit = async (data: IFormProductFields) =>
+        createProductAPI(data).then((product) => { })
 
     const pagerRef = React.useRef<PagerView>(null)
 
@@ -54,15 +35,13 @@ function CreateProduct() {
     }
 
     const [modalVisible, setModalVisible] = React.useState(true)
-    const navigation = useNavigation()
+    const navigation = useRootNavigation()
 
     const skuRef = React.useRef(null)
     const [page, setPage] = React.useState(0)
 
     return (
         <Modal avoidKeyboard isVisible={modalVisible} hasBackdrop={false} bg='transparent'>
-            {/* <Div bg='red' flex={1}>
-            </Div> */}
             <Container position='absolute' left={0} right={0} bottom={0} h="65%" alignItems='center' roundedTop="36">
                 <Div justifyContent='space-between' flexWrap='wrap' flexDir='row' px={16} my={16}>
                     <Div flex={1}>
@@ -70,10 +49,21 @@ function CreateProduct() {
                         <Typography variant='p2' textBreakStrategy='balanced'>Register new product record that are available in your inventory. </Typography>
                     </Div>
                     <Div>
-                        <Pressable onPress={() => navigation.goBack()}>
-                            <Badge bg='gray500' shadow="xs" px={8}>Cancel</Badge>
-                        </Pressable>
+                        <Link href={{ pathname: "app/inventory", params: { refresh: false } }} asChild>
+                            <Pressable>
+                                <Badge bg='gray500' shadow="xs" px={8}>Cancel</Badge>
+                            </Pressable></Link>
                     </Div>
+                </Div>
+                <Div w="100%" shadow="xs" flexDir='row' justifyContent='space-between' px={16} my={4}>
+                    <Ticker pages={3} currentPage={page} />
+                    <Button
+                        bg='indigo600' px={20} rounded="circle" py={8}
+                        onPress={() => formRef.current?.submit && formRef.current?.submit()}>
+                        <Typography variant='c2' color='#fff'>
+                            Submit
+                        </Typography>
+                    </Button>
                 </Div>
                 <Div mt={8} px={8} w="100%" flex={1} alignItems='center' justifyContent='center'>
                     <Form onSubmit={onSubmit} ref={formRef}>
@@ -127,16 +117,6 @@ function CreateProduct() {
                             </Div>
                         </PagerView>
                     </Form>
-                    <Div w="100%" shadow="xs" flexDir='row' justifyContent='space-between' px={16} my={4}>
-                        <Ticker pages={3} currentPage={page} />
-                        <Button
-                            bg='indigo600' px={20} rounded="circle" py={8}
-                            onPress={() => formRef.current?.submit && formRef.current?.submit()}>
-                            <Typography variant='c2' color='#fff'>
-                                Submit
-                            </Typography>
-                        </Button>
-                    </Div>
                 </Div>
             </Container>
         </Modal>

@@ -66,7 +66,7 @@ export type IProductModel = {
     purchase?: number | null
     unitPrice?: number | null
     sku?: string | null
-    totalQuantity?: Prisma.Decimal | null
+    storageQuantity?: Prisma.Decimal | null
     shelfQuantity?: Prisma.Decimal | null
     storeId: string
 }

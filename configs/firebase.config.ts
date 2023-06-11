@@ -1,15 +1,25 @@
 import { initializeApp } from 'firebase/app';
-import { initializeAuth, getReactNativePersistence, getAuth } from "firebase/auth/react-native"
+import { initializeAuth, getReactNativePersistence } from "firebase/auth/react-native"
+import { getStorage } from "firebase/storage"
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+    FIREBASE_API_KEY,
+    FIREBASE_AUTH_DOMAIN,
+    FIREBASE_PROJECT_ID,
+    FIREBASE_STORAGE_BUCKET,
+    FIREBASE_SENDER_ID,
+    FIREBASE_APP_ID,
+    FIREBASE_MEASUREMENT_ID
+} from "react-native-dotenv";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBEgD-w2pK68BdYK3AK2NDZxYnLXLQnLcM",
-    authDomain: "runchit-auth.firebaseapp.com",
-    projectId: "runchit-auth",
-    storageBucket: "runchit-auth.appspot.com",
-    messagingSenderId: "479480313617",
-    appId: "1:479480313617:web:8a1b0baa7e91c115c57eb0",
-    measurementId: "G-NJTKR1E6FN"
+    apiKey: FIREBASE_API_KEY,
+    authDomain: FIREBASE_AUTH_DOMAIN,
+    projectId: FIREBASE_PROJECT_ID,
+    storageBucket: FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: FIREBASE_SENDER_ID,
+    appId: FIREBASE_APP_ID,
+    measurementId: FIREBASE_MEASUREMENT_ID
 };
 const app = initializeApp(firebaseConfig)
 
@@ -17,4 +27,6 @@ const auth = initializeAuth(app, {
     persistence: getReactNativePersistence(AsyncStorage)
 })
 
-export { app, auth }
+const storage = getStorage(app)
+
+export { app, auth, storage }

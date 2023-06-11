@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
                 const currentRole = userData?.currentRole
                     ?? userData?.storeMember?.filter(sm => sm.storeId === selectedStore?.id)[0].roles![0]
 
-                initializeAxios(user.accessToken!, currentRole?.id)
+                initializeAxios(user.accessToken!, currentRole?.id, selectedStore?.id)
 
                 // if (isAuthorized) verifyUserAccess()
 

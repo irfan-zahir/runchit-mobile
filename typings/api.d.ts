@@ -1,4 +1,4 @@
-import { IStoreModel, IUserModel } from "@typings/models.d";
+import { IProductModel, IStoreModel, IUserModel } from "@typings/models.d";
 
 // type IRegisterShopBody = Omit<IModelRunchit, "id", "createdAt">
 
@@ -25,8 +25,22 @@ export interface IGetUserResponse {
     currentUser?: IUserModel;
 }
 
+export type IGetUserAPI = () => Promise<IGetUserResponse>
+
 export interface IFetchStoresAPI {
     stores: IStoreModel[]
 }
 
-export type IGetUserAPI = () => Promise<IGetUserResponse>
+interface ICreateProductBody {
+    name: string
+    purchase?: number | null
+    unitPrice?: number | null
+    sku?: string | null
+    storageQuantity?: Prisma.Decimal | null
+    shelfQuantity?: Prisma.Decimal | null
+    storeId: string
+}
+
+export type ICreateProductAPI = (product: ICreateProductBody) => Promise<IProductModel>
+
+export type IFetchProductsAPI = () => Promise<IProductModel[]>

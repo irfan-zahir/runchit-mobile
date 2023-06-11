@@ -1,26 +1,16 @@
 import React from 'react'
 import CountryFlag from "react-native-country-flag"
 import { Button, Div, Image } from "react-native-magnus"
-import { SplashScreen, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Typography } from '@components/typography';
 import { Container } from '@components/container';
 import { useAuth } from '@providers/AuthProvider';
-import { initializeAxios } from '@api/index';
 import { ActivityIndicator } from 'react-native';
-import { selector } from '@rtk/store';
-import { selectCurrentRole } from '@rtk/selectors/currentUser.selector';
-import { selectCurrentStore } from '@rtk/selectors/stores.selector';
 
 export default function Landing() {
     const [animationEnded, setAnimationEnded] = React.useState(false)
     const router = useRouter()
-    const { authUser, logout, loading: authLoading } = useAuth()
-
-    const currentRole = selector(selectCurrentRole)
-
-    if (authUser?.accessToken) {
-        initializeAxios(authUser?.accessToken)
-    }
+    const { loading: authLoading } = useAuth()
 
     React.useEffect(() => {
         setTimeout(() => setAnimationEnded(true), 5000);

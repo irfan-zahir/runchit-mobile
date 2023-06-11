@@ -1,4 +1,4 @@
-import { getStoresAPI } from "@api/store.api";
+import { fetchStoresAPI } from "@api/store.api";
 import { getUserAPI } from "@api/users.api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { IStoreModel } from "@typings/models.d";
@@ -15,7 +15,7 @@ const initialState: IInitialState = {
     loading: true
 }
 
-export const fetchStores = createAsyncThunk("store/fetchStores", async () => await getStoresAPI())
+export const fetchStores = createAsyncThunk("store/fetchStores", async () => await fetchStoresAPI())
 
 const usersSlice = createSlice({
     name: "store",
