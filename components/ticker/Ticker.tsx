@@ -19,7 +19,7 @@ export const Ticker: React.FC<ITickerProps> = ({ pages, currentPage, size = 10 }
                         key={i}
                         h={currentPage === i ? selectedSize : size}
                         w={currentPage === i ? selectedSize : size}
-                        bg={currentPage === i ? "gray400" : "gray200"}
+                        bg={currentPage === i ? "indigo600" : "gray200"}
                         rounded="circle" />
                 ))
             }

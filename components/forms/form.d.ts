@@ -1,5 +1,5 @@
 
-import { DeepPartial, FieldValues, UseFormReset, UseFormSetValue, FormProvider, Control, UseControllerProps, ValidationMode, UseFormWatch } from "react-hook-form"
+import { DeepPartial, FieldValues, UseFormReset, UseFormSetValue, Control, UseControllerProps, ValidationMode, UseFormWatch, FormState } from "react-hook-form"
 
 export interface IFormRef<T extends FieldValues> {
     showAlert?: any;
@@ -7,6 +7,7 @@ export interface IFormRef<T extends FieldValues> {
     reset: UseFormReset<T>
     getFormValues: UseFormWatch<T>
     setValue: UseFormSetValue<T>
+    getFormState: () => FormState<T>
 }
 
 export interface IFormProps<T extends FieldValues> {

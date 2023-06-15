@@ -14,10 +14,11 @@ export const Form: (<T extends FieldValues>(props: PropsWithStandardRef<T>) => R
         mode = "onChange"
     }, ref) => {
         const methods = useReactHookForm({ mode, defaultValues })
-        const { control, handleSubmit, reset, watch, formState, setFocus, setValue } = methods
+        const { control, handleSubmit, reset, watch, formState, setFocus, setValue, getFieldState } = methods
 
         React.useImperativeHandle(ref, () => ({
-            submit: handleSubmit(onSubmit), reset, setFocus, getFormValues: watch, setValue
+            submit: handleSubmit(onSubmit), reset, setFocus, getFormValues: watch, setValue,
+            getFormState: () => formState
         }))
 
         // listen to form changes
@@ -27,10 +28,17 @@ export const Form: (<T extends FieldValues>(props: PropsWithStandardRef<T>) => R
             return () => { }
         }, [watch()])
 
+        //reset form values to empty state after successfully submit form
         React.useEffect(() => {
             if (formState.isSubmitSuccessful) reset()
             return () => { }
         }, [formState.isSubmitSuccessful])
+
+        // reset default values for initial form load
+        React.useEffect(() => {
+            reset(defaultValues)
+            return () => { }
+        }, [defaultValues])
 
         return (
             <FormProvider {...methods}>

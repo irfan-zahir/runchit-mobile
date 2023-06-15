@@ -14,12 +14,7 @@ import {
     FiraSans_200ExtraLight,
 } from '@expo-google-fonts/fira-sans';
 import { StatusBar } from 'react-native';
-import { Container } from '@components/container';
 import * as ScreenOrientation from "expo-screen-orientation"
-
-export const unstable_settings = {
-    initialRouteName: "landing",
-};
 
 const RunchitLayout = () => {
 

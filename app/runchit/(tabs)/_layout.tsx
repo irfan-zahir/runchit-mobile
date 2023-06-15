@@ -1,14 +1,11 @@
 import { Container } from '@components/container'
-import { SidebarHeader } from '@components/sidebar'
 import { TabBar } from '@components/tabBar'
-import { Typography } from '@components/typography'
 import { useTabBarControl } from '@providers/TabBarProvider'
 import { useRoute } from '@react-navigation/native'
 import { fetchProducts } from '@rtk/slices/products.slice'
 import { appDispatch } from '@rtk/store'
-import { Tabs, useRootNavigationState, useRouter } from 'expo-router'
+import { Tabs } from 'expo-router'
 import React from 'react'
-import { Div, Icon } from 'react-native-magnus'
 
 function RootAppLayout() {
     const { tabBarVisible } = useTabBarControl()

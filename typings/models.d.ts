@@ -63,10 +63,12 @@ export type IStoreRoleModel = {
 export type IProductModel = {
     id: string
     name: string
-    purchase?: number | null
-    unitPrice?: number | null
-    sku?: string | null
-    storageQuantity?: Prisma.Decimal | null
-    shelfQuantity?: Prisma.Decimal | null
+    unit_name?: string
+    purchase?: number
+    unitPrice?: number
+    sku?: string
+    storageQuantity?: Prisma.Decimal
+    shelfQuantity?: Prisma.Decimal
+    images: string[]
     storeId: string
 }

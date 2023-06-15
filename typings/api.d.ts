@@ -31,17 +31,7 @@ export interface IFetchStoresAPI {
     stores: IStoreModel[]
 }
 
-interface ICreateProductBody {
-    name: string
-    purchase?: number | null
-    unitPrice?: number | null
-    sku?: string | null
-    storageQuantity?: Prisma.Decimal | null
-    shelfQuantity?: Prisma.Decimal | null
-    storeId: string
-}
-
-export type ICreateProductAPI = (product: ICreateProductBody) => Promise<IProductModel>
+export type ICreateProductAPI = (product: Omit<IProductModel, "id", "images">) => Promise<IProductModel>
 
 export type IFetchProductsAPI = () => Promise<IProductModel[]>
 
@@ -51,3 +41,9 @@ interface IProductQuery {
 }
 
 export type IQueryProductAPI = (query: IProductQuery) => Promise<IProductModel[]>
+
+export type IFetchUniqueProductAPI = (productId: string) => Promise<IProductModel>
+
+export type IDeleteProductAPI = (productId: string) => Promise<IProductModel>
+
+export type IUpdateProductAPI = (product: IProductModel) => Promise<IProductModel>

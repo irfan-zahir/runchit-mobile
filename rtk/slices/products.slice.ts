@@ -21,7 +21,7 @@ const usersSlice = createSlice({
     reducers: {
         updateProducts: (action, { payload }: { payload: IProductModel }) => {
             const persisted = [...action.products]
-            const index = persisted.indexOf(payload)
+            const index = persisted.findIndex(p => p.id === payload.id)
             const outdated = persisted.splice(index, 1, payload)
             action.products = persisted
             action.loading = false

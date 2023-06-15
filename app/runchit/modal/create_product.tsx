@@ -6,22 +6,15 @@ import { KeyboardAvoidingView, Pressable, ScrollView, Touchable, View } from 're
 import { Input } from '@components/forms/input'
 import { Form, useForm } from '@components/forms'
 import PagerView from 'react-native-pager-view'
-import { Link, useLocalSearchParams, useRootNavigation, useRouter, } from 'expo-router'
+import { Link, useLocalSearchParams, useNavigation, useRootNavigation, useRouter, } from 'expo-router'
 import { Ticker } from '@components/ticker'
 import { createProductAPI } from '@api/product.api'
 import { appDispatch } from '@rtk/store'
 import { useRoute } from '@react-navigation/native'
 import { Href } from 'expo-router/build/link/href'
+import { IProductModel } from '@typings/models'
 
-interface IFormProductFields {
-    name: string
-    purchase?: number
-    unitPrice?: number
-    sku?: string
-    storageQuantity?: number
-    shelfQuantity?: number
-    storeId: string
-}
+type IFormProductFields = Omit<IProductModel, "id" | "images">
 
 interface IRouteParam {
     sku?: string;
@@ -30,12 +23,13 @@ interface IRouteParam {
 }
 
 function CreateProduct() {
+    const navigation = useNavigation()
     const router = useRouter()
     const formRef = useForm<IFormProductFields>()
     const params: IRouteParam = useLocalSearchParams()
 
     const onSubmit = async (data: IFormProductFields) =>
-        createProductAPI(data).then((product) => { })
+        createProductAPI(data).then((product) => router.replace({ pathname: "runchit/inventory" }))
 
     const pagerRef = React.useRef<PagerView>(null)
 
@@ -43,16 +37,21 @@ function CreateProduct() {
         setPage(selectedPage)
     }
 
-    const [modalVisible, setModalVisible] = React.useState(true)
-
     const skuRef = React.useRef(null)
     const [page, setPage] = React.useState(0)
+    const [modalVisible, setModalVisisble] = React.useState(false)
 
     const onCancelHref = () => {
         if (params?.hooks_path) return router.replace({ pathname: params.hooks_path })
         if (params?.sku) return router.replace({ pathname: "/runchit/modal/fab_scanner" })
-        return router.replace({ pathname: "runchit/inventory", params: { refresh: false } })
+        return router.replace({ pathname: "/runchit/inventory", params: { refresh: false } })
     }
+
+    React.useEffect(() => {
+        navigation.addListener("focus", (e) => setTimeout(() => setModalVisisble(true), 300))
+
+        return () => { }
+    }, [navigation])
 
     return (
         <Modal avoidKeyboard isVisible={modalVisible} hasBackdrop={false} bg='transparent'>

@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 
             await landingAuthentication()
                 .then(dbUser => {
-                    if (dbUser.message === "new-user" && !dbUser.currentUser) router.push("(authentication)/registration")
+                    if (dbUser.message === "new-user" && !dbUser.currentUser) router.replace("(authentication)/registration")
                     if (dbUser.currentUser) {
                         const currentRole = userData?.currentRole
                             ?? userData?.storeMember?.filter(sm => sm.storeId === selectedStore?.id)[0].roles![0]
