@@ -38,7 +38,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
                     if (dbUser.currentUser) {
                         const currentRole = userData?.currentRole
                             ?? userData?.storeMember?.filter(sm => sm.storeId === selectedStore?.id)[0].roles![0]
-                        router.replace("(authorized)/app/dashboard")
+                        router.replace("runchit/dashboard")
                         dispatch(setCurrentUser({ ...dbUser.currentUser, currentRole }))
                         dispatch(fetchStores())
                     }
@@ -53,7 +53,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         }
 
         React.useEffect(() => {
-            const isAuthorized = segments[0] === "(authorized)"
+            const isAuthorized = segments[0] === "runchit"
             const inAuthGroup = segments[0] === "(authentication)";
 
             if (

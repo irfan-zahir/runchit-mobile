@@ -6,10 +6,12 @@ import { KeyboardAvoidingView, Pressable, ScrollView, Touchable, View } from 're
 import { Input } from '@components/forms/input'
 import { Form, useForm } from '@components/forms'
 import PagerView from 'react-native-pager-view'
-import { Link, useRootNavigation } from 'expo-router'
+import { Link, useLocalSearchParams, useRootNavigation, useRouter, } from 'expo-router'
 import { Ticker } from '@components/ticker'
 import { createProductAPI } from '@api/product.api'
 import { appDispatch } from '@rtk/store'
+import { useRoute } from '@react-navigation/native'
+import { Href } from 'expo-router/build/link/href'
 
 interface IFormProductFields {
     name: string
@@ -21,9 +23,16 @@ interface IFormProductFields {
     storeId: string
 }
 
+interface IRouteParam {
+    sku?: string;
+    hooks_path?: string;
+    formValues?: string
+}
+
 function CreateProduct() {
-    const dispatch = appDispatch()
+    const router = useRouter()
     const formRef = useForm<IFormProductFields>()
+    const params: IRouteParam = useLocalSearchParams()
 
     const onSubmit = async (data: IFormProductFields) =>
         createProductAPI(data).then((product) => { })
@@ -35,10 +44,15 @@ function CreateProduct() {
     }
 
     const [modalVisible, setModalVisible] = React.useState(true)
-    const navigation = useRootNavigation()
 
     const skuRef = React.useRef(null)
     const [page, setPage] = React.useState(0)
+
+    const onCancelHref = () => {
+        if (params?.hooks_path) return router.replace({ pathname: params.hooks_path })
+        if (params?.sku) return router.replace({ pathname: "/runchit/modal/fab_scanner" })
+        return router.replace({ pathname: "runchit/inventory", params: { refresh: false } })
+    }
 
     return (
         <Modal avoidKeyboard isVisible={modalVisible} hasBackdrop={false} bg='transparent'>
@@ -49,10 +63,9 @@ function CreateProduct() {
                         <Typography variant='p2' textBreakStrategy='balanced'>Register new product record that are available in your inventory. </Typography>
                     </Div>
                     <Div>
-                        <Link href={{ pathname: "app/inventory", params: { refresh: false } }} asChild>
-                            <Pressable>
-                                <Badge bg='gray500' shadow="xs" px={8}>Cancel</Badge>
-                            </Pressable></Link>
+                        <Pressable onPress={onCancelHref}>
+                            <Badge bg='gray500' shadow="xs" px={8}>Cancel</Badge>
+                        </Pressable>
                     </Div>
                 </Div>
                 <Div w="100%" shadow="xs" flexDir='row' justifyContent='space-between' px={16} my={4}>
@@ -66,7 +79,7 @@ function CreateProduct() {
                     </Button>
                 </Div>
                 <Div mt={8} px={8} w="100%" flex={1} alignItems='center' justifyContent='center'>
-                    <Form onSubmit={onSubmit} ref={formRef}>
+                    <Form defaultValues={params.formValues && JSON.parse(params.formValues)} onSubmit={onSubmit} ref={formRef}>
                         <PagerView
                             overScrollMode="always"
                             ref={pagerRef}
@@ -81,6 +94,7 @@ function CreateProduct() {
                                     nextRef={skuRef}
                                 />
                                 <Input
+                                    defaultValue={params?.sku ? params.sku : ""}
                                     innerRef={skuRef}
                                     scanQR
                                     name='sku'

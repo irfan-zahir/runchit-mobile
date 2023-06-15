@@ -44,3 +44,10 @@ interface ICreateProductBody {
 export type ICreateProductAPI = (product: ICreateProductBody) => Promise<IProductModel>
 
 export type IFetchProductsAPI = () => Promise<IProductModel[]>
+
+interface IProductQuery {
+    sku?: string;
+    categories?: string[];
+}
+
+export type IQueryProductAPI = (query: IProductQuery) => Promise<IProductModel[]>

@@ -4,6 +4,7 @@ import { Div, Icon, Input as RNMInput, InputProps as RNMInputProps } from 'react
 import { ICommonFormProps } from "../form.d"
 import { Typography } from '@components/typography';
 import { NativeSyntheticEvent, Pressable, TextInput, TextInputFocusEventData, TextInputSubmitEditingEventData } from 'react-native';
+import { Link, useNavigation, usePathname, useRouter } from 'expo-router';
 
 type IInputProps = ICommonFormProps & RNMInputProps & {
     nextRef?: React.RefObject<TextInput>,
@@ -21,7 +22,10 @@ export const Input: React.FC<IInputProps> = ({
     scanQR = false,
     ...inputProps
 }) => {
-    const { getFieldState, clearErrors, control } = useFormContext()
+    const router = useRouter()
+    const navigation = useNavigation()
+    const currentPath = usePathname()
+    const { getFieldState, clearErrors, control, watch } = useFormContext()
 
     return (
         <Controller
@@ -55,7 +59,8 @@ export const Input: React.FC<IInputProps> = ({
                 }
 
                 const [inputFocus, setInputFocus] = React.useState(false)
-                const onSuffixPress = () => console.log("scan bar code")
+                const onSuffixPress = () =>
+                    router.replace({ pathname: "/runchit/modal/fab_scanner", params: { hook_path: currentPath, formValues: JSON.stringify(watch()) } })
 
                 return (
                     <Div mb={4}>
@@ -74,14 +79,16 @@ export const Input: React.FC<IInputProps> = ({
                             returnKeyLabel={nextRef ? "next" : inputProps.returnKeyLabel}
                             returnKeyType={nextRef ? "next" : inputProps.returnKeyType}
                             suffix={
-                                scanQR && <Pressable onPress={onSuffixPress}>
-                                    <Div flexDir='row' alignItems='center'>
-                                        {inputFocus &&
-                                            <Typography variant='s2' mr={8} color='indigo300'>Scan Barcode</Typography>
-                                        }
-                                        <Icon fontSize={20} name='ios-qr-code' fontFamily='Ionicons' color="indigo300" />
-                                    </Div>
-                                </Pressable>
+                                scanQR && (
+                                    <Pressable onPress={onSuffixPress}>
+                                        <Div flexDir='row' alignItems='center'>
+                                            {inputFocus &&
+                                                <Typography variant='s2' mr={8} color='indigo300'>Scan Barcode</Typography>
+                                            }
+                                            <Icon fontSize={20} name='ios-qr-code' fontFamily='Ionicons' color="indigo300" />
+                                        </Div>
+                                    </Pressable>
+                                )
                             }
                         />
                         <Typography my={4} opacity={hasError ? 1 : 0} variant='c1' color='red600'>

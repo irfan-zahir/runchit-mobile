@@ -17,4 +17,5 @@ web-build/
 .metro-health-check*
 .env
 .env.production
+.env.development
 # .env.development

@@ -33,7 +33,7 @@ function Registration() {
         formRef.current?.submit && formRef.current?.submit()
 
     const onSubmit = async (formFields: IFormFields) => registerOwner(formFields).then(({ createdUser, error }) => {
-        router.replace("(authorized)/home")
+        router.replace("runchit/dashboard")
         setPageIndex(0)
     })
 

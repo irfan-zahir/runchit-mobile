@@ -12,28 +12,6 @@ import capitalize from '@hooks/capitalize'
 import { setSelectedStore } from '@rtk/slices/stores.slice'
 import { setCurrentRole } from '@rtk/slices/currentUser.slice'
 
-const dummyCurrentStore: IStoreModel = {
-    name: "Runchit",
-    createdAt: Date.now().toString(),
-    id: "1",
-    address: "taman u"
-}
-
-const dummyStores: IStoreModel[] = [
-    dummyCurrentStore,
-    { ...dummyCurrentStore, id: "2" },
-    { ...dummyCurrentStore, id: "3" },
-]
-
-const dummyCurrentRole: IStoreRoleModel = {
-    id: "1",
-    name: "Owner",
-    permissions: [],
-    storeId: dummyCurrentStore.id
-}
-
-const dummyRoles: IStoreRoleModel[] = [dummyCurrentRole]
-
 function ProfileModal() {
     const { logout } = useAuth()
 

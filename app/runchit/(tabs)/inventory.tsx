@@ -47,7 +47,7 @@ function Inventory() {
                 position='absolute'
                 bottom={25}
                 right={25}>
-                <Link asChild href="/modal/create_product">
+                <Link asChild href="/runchit/modal/create_product">
                     <Button
                         rounded="circle"
                         w={60}

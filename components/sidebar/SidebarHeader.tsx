@@ -12,7 +12,7 @@ export const SidebarHeader: React.FC = () => {
     return (
         <>
             <Container safeTop level={2} flexDir='row' justifyContent='flex-end'>
-                <Link href="/modal/profile">
+                <Link href="/runchit/modal/profile">
                     <Avatar bg='indigo600' color='#fff' fontSize={18}>
                         {currentUser && currentUser.userData?.fullName[0]}
                     </Avatar>

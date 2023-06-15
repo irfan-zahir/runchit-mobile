@@ -13,6 +13,7 @@ function ModalLayout() {
             }
         }} >
             <Stack.Screen name='profile' options={{ gestureEnabled: false }} />
+            <Stack.Screen name='fab_scanner' options={{ gestureEnabled: false }} />
         </Stack>
     )
 }

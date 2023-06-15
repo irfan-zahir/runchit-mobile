@@ -1,4 +1,5 @@
 import { Container } from '@components/container'
+import { Fab } from '@components/scanner'
 import { Typography } from '@components/typography'
 import { setVisibleModal } from '@rtk/slices/sidebar.slice'
 import { appDispatch } from '@rtk/store'
@@ -12,11 +13,12 @@ function Dashboard() {
 
     return (
         <Container fullscreen centered safeY level={2}>
+            <Fab />
             <Typography>Dashboard</Typography>
             {/* <Button onPress={() => dispatch(setVisibleModal(null))}>
                 Switch store
             </Button> */}
-            <Link href="/switchRole" asChild>
+            <Link href="/runchit/modal/switchRole" asChild>
                 <Typography>Switch Role</Typography>
             </Link>
         </Container>

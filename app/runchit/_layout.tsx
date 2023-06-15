@@ -26,7 +26,7 @@ function BottomBarNav() {
     return (
         <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name='modal' options={{ presentation: "modal", contentStyle: { backgroundColor: "transparent" } }} />
-            <Stack.Screen name='app' />
+            <Stack.Screen name='(tabs)' />
         </Stack>
     )
 }

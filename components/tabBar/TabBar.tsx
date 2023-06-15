@@ -59,7 +59,7 @@ export const TabBar: React.FC<ITabBarProps> = ({ inset, routes, activeIndex }) =
                         )
                     })
                 }
-                <Link href="/modal/profile" asChild>
+                <Link href="/runchit/modal/profile" asChild>
                     <Button bg='transparent'>
                         <Avatar size={36} bg='teal600' color='#fff' fontSize={18}>
                             {userData && userData.fullName[0]}
