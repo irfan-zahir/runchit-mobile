@@ -8,9 +8,6 @@ export const Image: React.FC<ImageProps> = ({ h, w, ...props }) => {
     return (
         <Div h={h} w={w}>
             <RNMImage onLoadEnd={() => setloading(false)} {...props} {...fillProps} />
-            {/* {
-                loading && <Skeleton h={h} {...fillProps} rounded="md" />
-            } */}
             {
                 loading &&
                 <AnimatedLottieView style={[fillProps, { height: h }]} autoPlay source={require("@assets/icons/loading.json")} />

@@ -1,5 +1,5 @@
 import { Container } from '@components/container'
-import { Fab } from '@components/scanner'
+import { FabScanner } from '@components/scanner'
 import { Typography } from '@components/typography'
 import { setVisibleModal } from '@rtk/slices/sidebar.slice'
 import { appDispatch } from '@rtk/store'
@@ -13,7 +13,7 @@ function Dashboard() {
 
     return (
         <Container fullscreen centered safeY level={2}>
-            <Fab />
+            <FabScanner />
             <Typography>Dashboard</Typography>
             {/* <Button onPress={() => dispatch(setVisibleModal(null))}>
                 Switch store

@@ -3,7 +3,7 @@ import React from 'react'
 import { Button, Div, Icon } from 'react-native-magnus'
 import { SkuScanner } from './SkuScanner'
 
-export function Fab() {
+export function FabScanner() {
     const onScanned = (value: string) => {
 
     }

@@ -175,7 +175,7 @@ export const ImagePicker: React.FC<IImagePickerProps> = ({
       <Modal bg='transparent' animationInTiming={1} animationOutTiming={1}
         swipeDirection="down" onSwipeComplete={() => setViewPhoto(null)} isVisible={!!viewPhoto}>
         <Pressable style={{ flex: 1, alignItems: "center", justifyContent: "center" }} onPress={() => setViewPhoto(null)}>
-          <Image rounded="2xl" alignSelf='center' w="90%" h={300} loadingIndicatorSource={require("@assets/icons/loading.json")} source={{ uri: viewPhoto! }} />
+          <Image rounded="2xl" alignSelf='center' w="90%" h={300} source={{ uri: viewPhoto! }} />
         </Pressable>
       </Modal>
     </Div>

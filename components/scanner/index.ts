@@ -1,2 +1,2 @@
-export * from "./Fab"
+export * from "./FabScanner"
 export * from "./SkuScanner"
