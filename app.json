@@ -18,7 +18,8 @@
     "ios": {
       "supportsTablet": false,
       "infoPlist": {
-        "NSCameraUsageDescription": "This app uses the camera to scan barcodes on products in store."
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
+        "NSPhotoLibraryUsageDescription ": "Allow $(PRODUCT_NAME) to access your photo."
       }
     },
     "android": {
@@ -37,7 +38,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to help you recognize products."
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photo."
         }
       ]
     ]

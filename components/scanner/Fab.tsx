@@ -21,7 +21,7 @@ export function Fab() {
                     h={60}
                     bg='indigo600'
                 >
-                    <Icon fontSize={24} color='#fff' name='qr-code' fontFamily='Ionicons' />
+                    <Icon fontSize={30} color='#fff' name='barcode-scan' fontFamily='MaterialCommunityIcons' />
                 </Button>
             </Link>
         </Div>

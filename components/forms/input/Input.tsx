@@ -99,9 +99,9 @@ export const Input: React.FC<IInputProps> = ({
                                                 <Pressable onPress={onSuffixPress}>
                                                     <Div flexDir='row' alignItems='center'>
                                                         {inputFocus &&
-                                                            <Typography variant='s2' mr={8} color='indigo300'>Scan Barcode</Typography>
+                                                            <Typography variant='s2' mr={8} color='indigo400'>Scan Barcode</Typography>
                                                         }
-                                                        <Icon fontSize={20} name='ios-qr-code' fontFamily='Ionicons' color="indigo300" />
+                                                        <Icon fontSize={20} color='indigo400' name='barcode-scan' fontFamily='MaterialCommunityIcons' />
                                                     </Div>
                                                 </Pressable>
                                             )

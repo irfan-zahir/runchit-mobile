@@ -9,8 +9,10 @@ import React from 'react'
 import { ActivityIndicator, Pressable, ScrollView } from 'react-native'
 import { Button, Div, Icon, Image, Modal } from 'react-native-magnus'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { appDispatch } from '@rtk/store'
+import { appDispatch, selector } from '@rtk/store'
 import { updateProducts } from '@rtk/slices/products.slice'
+import { ImagePicker } from '@components/forms/imagePicker'
+import { selectCurrentUser } from '@rtk/selectors/currentUser.selector'
 
 
 interface IRouteParam extends Record<string, any> {
@@ -20,11 +22,13 @@ interface IRouteParam extends Record<string, any> {
 type IFormFields = Omit<IProductModel, "storeId" | "id">
 
 function UpdateProduct() {
+    const user = selector(selectCurrentUser)
     const dispatch = appDispatch()
     const router = useRouter()
     const { productId } = useLocalSearchParams<IRouteParam>()
     const [product, setProduct] = React.useState<IProductModel | null>(null)
     const [loading, setLoading] = React.useState(true)
+    const [uploadLoading, setuploadLoading] = React.useState(false)
 
     const formRef = useForm<IFormFields>()
 
@@ -49,30 +53,15 @@ function UpdateProduct() {
         deleteProductAPI(product!.id).then(_ => router.replace({ pathname: "runchit/inventory" }))
     }
 
+    const imageDirectory = `${user?.id}/inventory/${productId}`
+    const defaultImages = product?.images
+
     return (
         <>
             <Form<IFormFields> ref={formRef} onSubmit={onSubmitUpdate} defaultValues={product!}>
                 <Div flex={1} bg='level2'>
                     <KeyboardAwareScrollView>
-
-                        <ScrollView showsHorizontalScrollIndicator={false} horizontal style={{ padding: 16, flexGrow: 0, width: "100%" }}>
-                            {
-                                // product && product.images
-                                Array(3).fill(0).map((image, i) => (
-                                    <Pressable key={i}>
-                                        <Div mr={8} shadow="sm" rounded="md" bg='#fff'>
-                                            <Image resizeMode='cover' rounded="md" h={175} w={250} source={{ uri: "https://images.pexels.com/photos/279480/pexels-photo-279480.jpeg" }} />
-                                        </Div>
-                                    </Pressable>
-                                ))
-                            }
-                            <Pressable>
-                                <Div p={24} mr={24} bg='#fff' shadow="sm" rounded="md" h={175} w={250} alignItems='center' justifyContent='center'>
-                                    <Icon name='image-plus' mr={8} fontFamily='MaterialCommunityIcons' fontSize={50} color='indigo600' />
-                                    <Typography mt={8}>Add image</Typography>
-                                </Div>
-                            </Pressable>
-                        </ScrollView>
+                        <ImagePicker defaultImages={defaultImages} imageDirectory={imageDirectory} allowsMultipleSelection onUpload={(isLoading) => setuploadLoading(isLoading)} />
                         <Container flex={1} level={2}>
                             <Input
                                 loading={loading}
@@ -130,16 +119,16 @@ function UpdateProduct() {
 
                             <Button
                                 block
-                                disabled={loading}
+                                disabled={loading || uploadLoading}
                                 bg='indigo600'
-                                prefix={loading && <ActivityIndicator size="small" style={{ marginEnd: 16 }} color="#fff" />}
+                                prefix={loading || uploadLoading && <ActivityIndicator size="small" style={{ marginEnd: 16 }} color="#fff" />}
                                 onPress={() => formRef.current?.submit && formRef.current.submit()}>
-                                <Typography variant='s2' color='#fff'>Submit</Typography>
+                                <Typography variant='s2' color='#fff'>Update</Typography>
                             </Button>
                             <Button
                                 mt={8}
                                 block
-                                disabled={loading}
+                                disabled={loading || uploadLoading}
                                 onPress={deleteProduct}
                                 bg='red600'>
                                 <Typography variant='s2' color='#fff'>Delete</Typography>

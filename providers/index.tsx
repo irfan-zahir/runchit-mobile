@@ -7,6 +7,7 @@ import { Provider as ReduxProvider } from "react-redux"
 import { PersistGate } from 'redux-persist/integration/react';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { TabBarProvider } from "./TabBarProvider";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 export default ({ children }: React.PropsWithChildren) => (
     // <SafeAreaProvider>
@@ -15,7 +16,9 @@ export default ({ children }: React.PropsWithChildren) => (
             <MagnusUIProvider>
                 <AuthProvider>
                     <TabBarProvider>
-                        {children}
+                        <ActionSheetProvider>
+                            {children}
+                        </ActionSheetProvider>
                     </TabBarProvider>
                 </AuthProvider>
             </MagnusUIProvider>

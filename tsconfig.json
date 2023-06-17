@@ -17,5 +17,6 @@
       "@configs/*":["configs/*"],
       "@constants/*":["constants/*"],
     },
+    "resolveJsonModule": true
   }
 }
